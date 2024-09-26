@@ -1,5 +1,6 @@
 ﻿using Input.Readers;
 using UnityEngine;
+using Zenject;
 
 namespace PlayerSystem
 {
@@ -11,12 +12,19 @@ namespace PlayerSystem
         [SerializeField] private float _groundCheckRadius = 0.2f;
         [SerializeField] private LayerMask _groundLayer;
         [SerializeField] private Transform _groundCheck;
-        [SerializeField] private GameplayInputReader _inputReader;
+        
+        private GameplayInputReader _inputReader;
 
         private Rigidbody2D _rb;
 
         private bool _isGrounded;
         private bool _canJump;
+        
+        [Inject]
+        private void Construct(GameplayInputReader inputReader)
+        {
+            _inputReader = inputReader;
+        }
 
         private void Awake()
         {
