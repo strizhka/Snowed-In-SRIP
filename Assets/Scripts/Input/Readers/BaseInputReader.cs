@@ -1,19 +1,25 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Zenject;
 
 namespace Input.Readers
 {
-    public abstract class BaseInputReader : MonoBehaviour
+    public class BaseInputReader
     {
-        [SerializeField] private InputActionAsset _inputActionAsset;
-        [SerializeField] private string _actionMapName;
-        [SerializeField] protected InputHandlerType _inputHandler;
+        private InputActionAsset _inputActionAsset;
+        private string _actionMapName;
+        private InputHandlerType _inputHandler;
         
         public InputHandlerType InputHandler => _inputHandler;
         
-        protected virtual void Awake()
+        [Inject]
+        public void Construct(InputActionAsset inputActionAsset, string actionMapName, InputHandlerType inputHandler)
         {
+            _inputActionAsset = inputActionAsset;
+            _actionMapName = actionMapName;
+            _inputHandler = inputHandler;
+
             if (_actionMapName == "")
                 throw new ArgumentException("Action Map Name Not Assigned!");
         }

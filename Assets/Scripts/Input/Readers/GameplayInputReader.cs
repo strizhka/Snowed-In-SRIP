@@ -1,16 +1,15 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Zenject;
 
 namespace Input.Readers
 {
-    public class GameplayInputReader : BaseInputReader
+    public class GameplayInputReader : BaseInputReader, IInitializable, IDisposable
     {
-        [Header("Action Map References")] [SerializeField]
-        private InputActionReference _moveActionReference;
-
-        [SerializeField] private InputActionReference _jumpActionReference;
-        [SerializeField] private InputActionReference _interactctionReference;
+        [Header("Action Map References")] private InputActionReference _moveActionReference;
+        private InputActionReference _jumpActionReference;
+        private InputActionReference _interactionReference;
 
         private InputAction _moveAction;
         private InputAction _jumpAction;
@@ -24,11 +23,15 @@ namespace Input.Readers
         public Action OnJumpTriggered;
         public Action OnInteractionTriggered;
 
-        private void Awake()
+        [Inject]
+        public void Construct(
+            [Inject (Id = "Move")] InputActionReference moveActionReference,
+            [Inject (Id = "Jump")] InputActionReference jumpActionReference,
+            [Inject (Id = "Interaction")] InputActionReference interactionActionReference)
         {
-            _moveAction = _moveActionReference;
-            _jumpAction = _jumpActionReference;
-            _interactionAction = _interactctionReference;
+            _moveAction = moveActionReference.action;
+            _jumpAction = jumpActionReference.action;
+            _interactionAction = interactionActionReference.action;
         }
 
         private void EnableDefaultInput()
@@ -67,13 +70,13 @@ namespace Input.Readers
             _interactionAction.Disable();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             RegisterInputActions();
             EnableDefaultInput();
         }
 
-        private void OnDisable()
+        public void Dispose()
         {
             UnregisterInputActions();
             DisableDefaultInput();

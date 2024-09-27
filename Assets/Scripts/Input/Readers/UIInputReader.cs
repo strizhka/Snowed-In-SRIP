@@ -1,22 +1,21 @@
 ﻿using System;
-using UnityEngine;
 using UnityEngine.InputSystem;
+using Zenject;
 
 namespace Input.Readers
 {
     public class UIInputReader : BaseInputReader
     {
-        [Header("Action Name References")]
-        [SerializeField] private InputActionReference _navigateActionReference;
-        [SerializeField] private InputActionReference _submitActionReference;
-        [SerializeField] private InputActionReference _cancelActionReference;
-        [SerializeField] private InputActionReference _pointActionReference;
-        [SerializeField] private InputActionReference _clickActionReference;
-        [SerializeField] private InputActionReference _scrollWheelActionReference;
-        [SerializeField] private InputActionReference _middleClickActionReference;
-        [SerializeField] private InputActionReference _rightClickActionReference;
-        [SerializeField] private InputActionReference _trackedDevicePositionActionReference;
-        [SerializeField] private InputActionReference _trackedDeviceOrientationActionReference;
+        private InputActionReference _navigateActionReference;
+        private InputActionReference _submitActionReference;
+        private InputActionReference _cancelActionReference;
+        private InputActionReference _pointActionReference;
+        private InputActionReference _clickActionReference;
+        private InputActionReference _scrollWheelActionReference;
+        private InputActionReference _middleClickActionReference;
+        private InputActionReference _rightClickActionReference;
+        private InputActionReference _trackedDevicePositionActionReference;
+        private InputActionReference _trackedDeviceOrientationActionReference;
 
         private InputAction _navigateAction;
         private InputAction _submitAction;
@@ -40,18 +39,29 @@ namespace Input.Readers
         private Action<InputAction.CallbackContext> _trackedDevicePositionActionDelegate;
         private Action<InputAction.CallbackContext> _trackedDeviceOrientationActionDelegate;
         
-        private void Awake()
+        [Inject]
+        public void Construct(
+            [Inject (Id = "Navigate")] InputActionReference navigateActionReference,
+            [Inject (Id = "Submit")] InputActionReference submitActionReference,
+            [Inject (Id = "Cancel")] InputActionReference cancelActionReference,
+            [Inject (Id = "Point")] InputActionReference pointActionReference,
+            [Inject (Id = "Click")] InputActionReference clickActionReference,
+            [Inject (Id = "ScrollWheel")] InputActionReference scrollWheelActionReference,
+            [Inject (Id = "MiddleClick")] InputActionReference middleClickActionReference,
+            [Inject (Id = "RightClick")] InputActionReference rightClickActionReference,
+            [Inject (Id = "TrackedDevicePosition")] InputActionReference trackedDevicePositionActionReference,
+            [Inject (Id = "TrackedDeviceOrientation")] InputActionReference trackedDeviceOrientationActionReference)
         {
-            _navigateAction = _navigateActionReference;
-            _submitAction = _submitActionReference;
-            _cancelAction = _cancelActionReference;
-            _pointAction = _pointActionReference;
-            _clickAction = _clickActionReference;
-            _scrollWheelAction = _scrollWheelActionReference;
-            _middleClickAction = _middleClickActionReference;
-            _rightClickAction = _rightClickActionReference;
-            _trackedDevicePositionAction = _trackedDevicePositionActionReference;
-            _trackedDeviceOrientationAction = _trackedDeviceOrientationActionReference;
+            _navigateAction = navigateActionReference.action;
+            _submitAction = submitActionReference.action;
+            _cancelAction = cancelActionReference.action;
+            _pointAction = pointActionReference.action;
+            _clickAction = clickActionReference.action;
+            _scrollWheelAction = scrollWheelActionReference.action;
+            _middleClickAction = middleClickActionReference.action;
+            _rightClickAction = rightClickActionReference.action;
+            _trackedDevicePositionAction = trackedDevicePositionActionReference.action;
+            _trackedDeviceOrientationAction = trackedDeviceOrientationActionReference.action;
         }
 
         private void OnEnable()

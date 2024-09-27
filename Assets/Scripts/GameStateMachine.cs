@@ -1,28 +1,23 @@
-﻿using System;
-using Input;
-using UnityEngine;
+﻿using Input;
+using Zenject;
 
-public class GameStateMachine : MonoBehaviour
+public class GameStateMachine
 {
-    [SerializeField] private InputReaderSwitcher _inputReaderSwitcher;
-
+    private InputReaderSwitcher _inputReaderSwitcher;
     private GameState _currentState;
-    
+
     public GameState CurrentState => _currentState;
-    public static GameStateMachine Instance { get; private set; }
-
-    private void Awake()
+    
+    [Inject]
+    public void Construct(InputReaderSwitcher inputReaderSwitcher)
     {
-        if (Instance == null)
-            Instance = this;
-        else
-            Destroy(gameObject);
+        _inputReaderSwitcher = inputReaderSwitcher;
     }
 
-    private void Start()
-    {
-        ChangeState(GameState.Gameplay);
-    }
+    // private void Start()
+    // {
+    //     ChangeState(GameState.Menu);
+    // }
 
     public void ChangeState(GameState newState)
     {
@@ -42,7 +37,7 @@ public class GameStateMachine : MonoBehaviour
         _inputReaderSwitcher.SetActiveInputHandler(InputHandlerType.Gameplay);
         _currentState = GameState.Gameplay;
     }
-    
+
     private void MenuState()
     {
         _inputReaderSwitcher.SetActiveInputHandler(InputHandlerType.UI);

@@ -2,17 +2,24 @@ using System;
 using System.Collections.Generic;
 using Input.Readers;
 using UnityEngine;
+using Zenject;
 
 namespace Input
 {
-    public class InputReaderSwitcher : MonoBehaviour
+    public class InputReaderSwitcher : ITickable
     {
-        [SerializeField] private List<BaseInputReader> _inputHandlers = new();
+        private List<BaseInputReader> _inputHandlers = new();
         private BaseInputReader _activeInputReader;
 
         public List<BaseInputReader> InputHandlers => _inputHandlers;
+        
+        [Inject]
+        public void Construct(List<BaseInputReader> inputHandlers)
+        {
+            _inputHandlers = inputHandlers;
+        }
 
-        private void Update()
+        public void Tick()
         {
             LogActiveReaders();
         }

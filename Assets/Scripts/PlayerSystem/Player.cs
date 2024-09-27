@@ -1,11 +1,12 @@
-﻿using Input.Readers;
+﻿using System;
+using Input.Readers;
 using UnityEngine;
 using Zenject;
 
 namespace PlayerSystem
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class Player : MonoBehaviour
+    public class Player : MonoBehaviour, IInitializable
     {
         [SerializeField] private float _speed = 5f;
         [SerializeField] private float _jumpForce = 10f;
@@ -14,6 +15,7 @@ namespace PlayerSystem
         [SerializeField] private Transform _groundCheck;
         
         private GameplayInputReader _inputReader;
+        private GameStateMachine _gameStateMachine;
 
         private Rigidbody2D _rb;
 
@@ -21,14 +23,20 @@ namespace PlayerSystem
         private bool _canJump;
         
         [Inject]
-        private void Construct(GameplayInputReader inputReader)
+        private void Construct(GameplayInputReader inputReader, GameStateMachine gameStateMachine)
         {
             _inputReader = inputReader;
+            _gameStateMachine = gameStateMachine;
         }
 
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
+        }
+
+        public void Initialize()
+        {
+            _gameStateMachine.ChangeState(GameState.Gameplay);
         }
 
         private void OnEnable()
