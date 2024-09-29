@@ -14,7 +14,7 @@ namespace PlayerSystem
         [SerializeField] private LayerMask _groundLayer;
         [SerializeField] private Transform _groundCheck;
         
-        private GameplayInputReader _inputReader;
+        private GameplayInputReader _gameplayInputReader;
         private GameStateMachine _gameStateMachine;
 
         private Rigidbody2D _rb;
@@ -25,7 +25,7 @@ namespace PlayerSystem
         [Inject]
         private void Construct(GameplayInputReader inputReader, GameStateMachine gameStateMachine)
         {
-            _inputReader = inputReader;
+            _gameplayInputReader = inputReader;
             _gameStateMachine = gameStateMachine;
         }
 
@@ -41,12 +41,12 @@ namespace PlayerSystem
 
         private void OnEnable()
         {
-            _inputReader.OnJumpTriggered += Jump;
+            _gameplayInputReader.OnJumpTriggered += Jump;
         }
 
         private void OnDisable()
         {
-            _inputReader.OnJumpTriggered -= Jump;
+            _gameplayInputReader.OnJumpTriggered -= Jump;
         }
 
         private void Update()
@@ -61,8 +61,9 @@ namespace PlayerSystem
 
         private void Move()
         {
-            var moveInput = _inputReader.MoveInput;
+            var moveInput = _gameplayInputReader.MoveInput;
             var moveDirection = new Vector2(moveInput.x, 0f);
+            
             _rb.velocity = new Vector2(moveDirection.x * _speed, _rb.velocity.y);
         }
 
