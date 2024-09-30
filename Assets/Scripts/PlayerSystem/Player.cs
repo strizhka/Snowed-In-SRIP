@@ -9,40 +9,34 @@ namespace PlayerSystem
     [RequireComponent(typeof(Rigidbody2D))]
     public class Player : MonoBehaviour
     {
-        [Header("Movement Settings")]
-        [SerializeField] private float _speed = 5f;
-        [SerializeField] private float _jumpForce = 10f;
+        [Header("Movement Settings")] [SerializeField]
+        private float _speed = 5f;
+
+        [field: SerializeField] public float JumpForce { get; private set; } = 10f;
+        
         [SerializeField] private float _groundCheckRadius = 0.2f;
         [SerializeField] private LayerMask _groundLayer;
         [SerializeField] private Transform _groundCheck;
 
-        [Header("Object Interaction Settings")]
-        [SerializeField] private float _attackRange = 1f;
-        [SerializeField] private LayerMask _interactiveLayerMask;
-        [SerializeField] private float _cooldownTime = 1f;
-
-
         private GameplayInputReader _gameplayInputReader;
         private GameStateMachine _gameStateMachine;
+        private AbilityManager _abilityManager;
 
-        private Rigidbody2D _rb;
+        public Rigidbody2D Rb { get; private set; }
+        public bool IsGrounded { get; private set; }
 
-        private float _lastAttack = -Mathf.Infinity;
-
-        private bool _isGrounded;
-        private bool _isDoubleJumpAvailable;
-        private bool _canJump;
-        
         [Inject]
-        private void Construct(GameplayInputReader inputReader, GameStateMachine gameStateMachine)
+        private void Construct(GameplayInputReader inputReader, GameStateMachine gameStateMachine,
+            AbilityManager abilityManager)
         {
             _gameplayInputReader = inputReader;
             _gameStateMachine = gameStateMachine;
+            _abilityManager = abilityManager;
         }
 
         private void Awake()
         {
-            _rb = GetComponent<Rigidbody2D>();
+            Rb = GetComponent<Rigidbody2D>();
         }
 
         public void Initialize()
@@ -53,25 +47,24 @@ namespace PlayerSystem
         private void OnEnable()
         {
             _gameplayInputReader.OnJumpTriggered += Jump;
-
-            _gameplayInputReader.OnObjectInteractionTriggered += ObjectInteraction;
+            
+            _abilityManager.EnableAbility(Ability.ObjectInteraction);
+            _abilityManager.EnableAbility(Ability.DoubleJump);
         }
 
         private void OnDisable()
         {
             _gameplayInputReader.OnJumpTriggered -= Jump;
-
-            _gameplayInputReader.OnObjectInteractionTriggered -= ObjectInteraction;
+            
+            _abilityManager.DisableAbility(Ability.ObjectInteraction);
+            _abilityManager.DisableAbility(Ability.DoubleJump);
         }
 
         private void Update()
         {
-            _isGrounded = Physics2D.OverlapCircle(_groundCheck.position, _groundCheckRadius, _groundLayer);
+            IsGrounded = Physics2D.OverlapCircle(_groundCheck.position, _groundCheckRadius, _groundLayer);
 
-            if (_isGrounded)
-            {
-                _isDoubleJumpAvailable = true;
-            }
+            _abilityManager.UpdateAbilities();
         }
 
         private void FixedUpdate()
@@ -83,41 +76,22 @@ namespace PlayerSystem
         {
             var moveInput = _gameplayInputReader.MoveInput;
             var moveDirection = new Vector2(moveInput.x, 0f);
-            
-            _rb.velocity = new Vector2(moveDirection.x * _speed, _rb.velocity.y);
+
+            Rb.velocity = new Vector2(moveDirection.x * _speed, Rb.velocity.y);
         }
 
         private void Jump()
         {
-            if (_isGrounded)
+            if (IsGrounded)
             {
-                _rb.velocity = new Vector2(_rb.velocity.x, _jumpForce);
-            }
-            else if (_isDoubleJumpAvailable)
-            {
-                _rb.velocity = new Vector2(_rb.velocity.x, _jumpForce);
-                _isDoubleJumpAvailable = false;
-            }
-        }
-
-        private void ObjectInteraction()
-        {
-            if (Time.time - _lastAttack >= _cooldownTime)
-            {
-                _lastAttack = Time.time;
-
-                Collider2D[] objectsInRange = Physics2D.OverlapCircleAll(transform.position, _attackRange, _interactiveLayerMask);
-
-                foreach (Collider2D col in objectsInRange)
-                {
-                    Destroy(col.gameObject);
-                }
+                Rb.velocity = new Vector2(Rb.velocity.x, JumpForce);
             }
         }
 
         private void OnDrawGizmosSelected()
         {
-            Gizmos.DrawWireSphere(transform.position, _attackRange);
+            if (Application.isPlaying)
+                _abilityManager.DrawGizmos();
         }
     }
 }
