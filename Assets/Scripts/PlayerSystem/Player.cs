@@ -79,7 +79,7 @@ namespace PlayerSystem
             {
                 _rb.velocity = new Vector2(_rb.velocity.x, _jumpForce);
             }
-            else if (!_isDoubleJumpAvailable)
+            else if (_isDoubleJumpAvailable)
             {
                 _rb.velocity = new Vector2(_rb.velocity.x, _jumpForce);
                 _isDoubleJumpAvailable = false;

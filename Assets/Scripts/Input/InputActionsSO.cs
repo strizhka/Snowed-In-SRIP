@@ -11,7 +11,8 @@ namespace Input
         [field: Header("Gameplay Actions")]
         [field: SerializeField] public InputActionReference MoveAction { get; private set;}
         [field: SerializeField] public InputActionReference JumpAction { get; private set;}
-        [field: SerializeField] public InputActionReference InteractionAction { get; private set;}
+        [field: SerializeField] public InputActionReference EnvironmentInteraction { get; private set;}
+        [field: SerializeField] public InputActionReference ObjectInteraction { get; private set; }
 
         [field: Header("UI Actions")]
         [field: SerializeField] public InputActionReference NavigateAction { get; private set;}
