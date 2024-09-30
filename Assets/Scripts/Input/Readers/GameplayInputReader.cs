@@ -21,6 +21,7 @@ namespace Input.Readers
 
         public Vector2 MoveInput { get; private set; }
         public Action OnJumpTriggered;
+ 
         public Action OnInteractionTriggered;
 
         [Inject]
