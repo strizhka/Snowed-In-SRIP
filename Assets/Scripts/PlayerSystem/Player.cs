@@ -20,6 +20,7 @@ namespace PlayerSystem
         private Rigidbody2D _rb;
 
         private bool _isGrounded;
+        private bool _isDoubleJumpAvailable;
         private bool _canJump;
         
         [Inject]
@@ -52,6 +53,11 @@ namespace PlayerSystem
         private void Update()
         {
             _isGrounded = Physics2D.OverlapCircle(_groundCheck.position, _groundCheckRadius, _groundLayer);
+
+            if (_isGrounded)
+            {
+                _isDoubleJumpAvailable = true;
+            }
         }
 
         private void FixedUpdate()
@@ -72,6 +78,11 @@ namespace PlayerSystem
             if (_isGrounded)
             {
                 _rb.velocity = new Vector2(_rb.velocity.x, _jumpForce);
+            }
+            else if (!_isDoubleJumpAvailable)
+            {
+                _rb.velocity = new Vector2(_rb.velocity.x, _jumpForce);
+                _isDoubleJumpAvailable = false;
             }
         }
     }
