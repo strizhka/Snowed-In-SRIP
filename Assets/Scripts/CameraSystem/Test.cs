@@ -22,7 +22,7 @@ public class Test : MonoBehaviour
 
     private void OnEnable()
     {
-        _gameplayInputReader.OnJumpTriggered += Switch;
+        //_gameplayInputReader.OnJumpTriggered += Switch;
     }
 
     private void Switch()
