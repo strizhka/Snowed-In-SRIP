@@ -9,18 +9,25 @@ namespace PlayerSystem
     [RequireComponent(typeof(Rigidbody2D))]
     public class Player : MonoBehaviour
     {
+        [Header("Movement Settings")]
         [SerializeField] private float _speed = 5f;
         [SerializeField] private float _jumpForce = 10f;
         [SerializeField] private float _groundCheckRadius = 0.2f;
         [SerializeField] private LayerMask _groundLayer;
         [SerializeField] private Transform _groundCheck;
+
+        [Header("Object Interaction Settings")]
         [SerializeField] private float _attackRange = 1f;
         [SerializeField] private LayerMask _interactiveLayerMask;
+        [SerializeField] private float _cooldownTime = 1f;
+
 
         private GameplayInputReader _gameplayInputReader;
         private GameStateMachine _gameStateMachine;
 
         private Rigidbody2D _rb;
+
+        private float _lastAttack = -Mathf.Infinity;
 
         private bool _isGrounded;
         private bool _isDoubleJumpAvailable;
@@ -95,13 +102,16 @@ namespace PlayerSystem
 
         private void ObjectInteraction()
         {
-            Debug.Log("F");
-            Collider2D[] objectsInRange = Physics2D.OverlapCircleAll(transform.position, _attackRange, _interactiveLayerMask);
-
-            foreach (Collider2D col in objectsInRange)
+            if (Time.time - _lastAttack >= _cooldownTime)
             {
-                Debug.Log("1");
-                Destroy(col.gameObject);
+                _lastAttack = Time.time;
+
+                Collider2D[] objectsInRange = Physics2D.OverlapCircleAll(transform.position, _attackRange, _interactiveLayerMask);
+
+                foreach (Collider2D col in objectsInRange)
+                {
+                    Destroy(col.gameObject);
+                }
             }
         }
 
