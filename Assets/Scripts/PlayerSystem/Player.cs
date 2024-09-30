@@ -1,19 +1,22 @@
 ﻿using System;
 using Input.Readers;
+using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 
 namespace PlayerSystem
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class Player : MonoBehaviour, IInitializable
+    public class Player : MonoBehaviour
     {
         [SerializeField] private float _speed = 5f;
         [SerializeField] private float _jumpForce = 10f;
         [SerializeField] private float _groundCheckRadius = 0.2f;
         [SerializeField] private LayerMask _groundLayer;
         [SerializeField] private Transform _groundCheck;
-        
+        [SerializeField] private float _attackRange = 1f;
+        [SerializeField] private LayerMask _interactiveLayerMask;
+
         private GameplayInputReader _gameplayInputReader;
         private GameStateMachine _gameStateMachine;
 
@@ -43,11 +46,15 @@ namespace PlayerSystem
         private void OnEnable()
         {
             _gameplayInputReader.OnJumpTriggered += Jump;
+
+            _gameplayInputReader.OnObjectInteractionTriggered += ObjectInteraction;
         }
 
         private void OnDisable()
         {
             _gameplayInputReader.OnJumpTriggered -= Jump;
+
+            _gameplayInputReader.OnObjectInteractionTriggered -= ObjectInteraction;
         }
 
         private void Update()
@@ -84,6 +91,23 @@ namespace PlayerSystem
                 _rb.velocity = new Vector2(_rb.velocity.x, _jumpForce);
                 _isDoubleJumpAvailable = false;
             }
+        }
+
+        private void ObjectInteraction()
+        {
+            Debug.Log("F");
+            Collider2D[] objectsInRange = Physics2D.OverlapCircleAll(transform.position, _attackRange, _interactiveLayerMask);
+
+            foreach (Collider2D col in objectsInRange)
+            {
+                Debug.Log("1");
+                Destroy(col.gameObject);
+            }
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.DrawWireSphere(transform.position, _attackRange);
         }
     }
 }
