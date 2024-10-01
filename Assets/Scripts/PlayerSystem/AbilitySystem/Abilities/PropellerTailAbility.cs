@@ -8,7 +8,9 @@ namespace PlayerSystem
     {
         public override Ability Ability => Ability.PropellerTail;
 
-        [SerializeField] private float _gravityScale;
+
+        private float _gravityScale = 0.5f;
+
 
         private bool _isPropellerTailAvailable;
         private readonly GameplayInputReader _inputReader;
@@ -43,12 +45,16 @@ namespace PlayerSystem
             else
             {
                 _isPropellerTailAvailable = false;
+
+                _player.Rb.gravityScale = 1;
+
             }
         }
 
         private void PerformPropellerTail()
         {
-            while (_isPropellerTailAvailable)
+
+            if (_isPropellerTailAvailable && !_player.IsGrounded)       // temp solution while there is no hold button
             {
                 _player.Rb.gravityScale = _gravityScale;
             }
