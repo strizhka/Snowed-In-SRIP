@@ -17,6 +17,7 @@ MonoBehaviour:
   <JumpAction>k__BackingField: {fileID: 5612281241576331950, guid: 42feaa6813b598042afd3758e7ea94a9, type: 3}
   <EnvironmentInteraction>k__BackingField: {fileID: -6729762778075283919, guid: 42feaa6813b598042afd3758e7ea94a9, type: 3}
   <ObjectInteraction>k__BackingField: {fileID: 4587522205741269714, guid: 42feaa6813b598042afd3758e7ea94a9, type: 3}
+  <PropellerTail>k__BackingField: {fileID: -4768479795611744122, guid: 42feaa6813b598042afd3758e7ea94a9, type: 3}
   <NavigateAction>k__BackingField: {fileID: -2397108217154468240, guid: 42feaa6813b598042afd3758e7ea94a9, type: 3}
   <SubmitAction>k__BackingField: {fileID: 7322148336557091316, guid: 42feaa6813b598042afd3758e7ea94a9, type: 3}
   <CancelAction>k__BackingField: {fileID: 3563615465328800493, guid: 42feaa6813b598042afd3758e7ea94a9, type: 3}

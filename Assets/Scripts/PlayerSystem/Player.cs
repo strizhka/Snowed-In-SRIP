@@ -50,6 +50,7 @@ namespace PlayerSystem
             
             _abilityManager.EnableAbility(Ability.ObjectInteraction);
             _abilityManager.EnableAbility(Ability.DoubleJump);
+            _abilityManager.EnableAbility(Ability.PropellerTail);
         }
 
         private void OnDisable()
@@ -58,6 +59,7 @@ namespace PlayerSystem
             
             _abilityManager.DisableAbility(Ability.ObjectInteraction);
             _abilityManager.DisableAbility(Ability.DoubleJump);
+            _abilityManager.DisableAbility(Ability.PropellerTail);
         }
 
         private void Update()
