@@ -3,6 +3,7 @@
     public enum Ability
     {
         DoubleJump,
-        ObjectInteraction
+        ObjectInteraction,
+        PropellerTail
     }
 }

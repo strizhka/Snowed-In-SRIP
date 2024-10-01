@@ -19,6 +19,7 @@ namespace Installers
             Container.Bind<Player>().FromInstance(_player).AsSingle();
 
             Container.Bind<BaseAbility>().To<DoubleJumpAbility>().AsTransient();
+            Container.Bind<BaseAbility>().To<PropellerTailAbility>().AsTransient();
             Container.Bind<BaseAbility>().To<ObjectInteractionAbility>()
                 .AsTransient()
                 .WithArguments(_cooldownTime, _attackRange, _interactiveLayerMask);
