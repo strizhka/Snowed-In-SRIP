@@ -1,37 +1,42 @@
 ﻿using System;
 using Input.Readers;
+using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 
 namespace PlayerSystem
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class Player : MonoBehaviour, IInitializable
+    public class Player : MonoBehaviour
     {
-        [SerializeField] private float _speed = 5f;
-        [SerializeField] private float _jumpForce = 10f;
+        [Header("Movement Settings")] [SerializeField]
+        private float _speed = 5f;
+
+        [field: SerializeField] public float JumpForce { get; private set; } = 10f;
+        
         [SerializeField] private float _groundCheckRadius = 0.2f;
         [SerializeField] private LayerMask _groundLayer;
         [SerializeField] private Transform _groundCheck;
-        
-        private GameplayInputReader _inputReader;
+
+        private GameplayInputReader _gameplayInputReader;
         private GameStateMachine _gameStateMachine;
+        private AbilityManager _abilityManager;
 
-        private Rigidbody2D _rb;
+        public Rigidbody2D Rb { get; private set; }
+        public bool IsGrounded { get; private set; }
 
-        private bool _isGrounded;
-        private bool _canJump;
-        
         [Inject]
-        private void Construct(GameplayInputReader inputReader, GameStateMachine gameStateMachine)
+        private void Construct(GameplayInputReader inputReader, GameStateMachine gameStateMachine,
+            AbilityManager abilityManager)
         {
-            _inputReader = inputReader;
+            _gameplayInputReader = inputReader;
             _gameStateMachine = gameStateMachine;
+            _abilityManager = abilityManager;
         }
 
         private void Awake()
         {
-            _rb = GetComponent<Rigidbody2D>();
+            Rb = GetComponent<Rigidbody2D>();
         }
 
         public void Initialize()
@@ -41,17 +46,27 @@ namespace PlayerSystem
 
         private void OnEnable()
         {
-            _inputReader.OnJumpTriggered += Jump;
+            _gameplayInputReader.OnJumpTriggered += Jump;
+            
+            _abilityManager.EnableAbility(Ability.ObjectInteraction);
+            _abilityManager.EnableAbility(Ability.DoubleJump);
+            _abilityManager.EnableAbility(Ability.PropellerTail);
         }
 
         private void OnDisable()
         {
-            _inputReader.OnJumpTriggered -= Jump;
+            _gameplayInputReader.OnJumpTriggered -= Jump;
+            
+            _abilityManager.DisableAbility(Ability.ObjectInteraction);
+            _abilityManager.DisableAbility(Ability.DoubleJump);
+            _abilityManager.DisableAbility(Ability.PropellerTail);
         }
 
         private void Update()
         {
-            _isGrounded = Physics2D.OverlapCircle(_groundCheck.position, _groundCheckRadius, _groundLayer);
+            IsGrounded = Physics2D.OverlapCircle(_groundCheck.position, _groundCheckRadius, _groundLayer);
+
+            _abilityManager.UpdateAbilities();
         }
 
         private void FixedUpdate()
@@ -61,17 +76,24 @@ namespace PlayerSystem
 
         private void Move()
         {
-            var moveInput = _inputReader.MoveInput;
+            var moveInput = _gameplayInputReader.MoveInput;
             var moveDirection = new Vector2(moveInput.x, 0f);
-            _rb.velocity = new Vector2(moveDirection.x * _speed, _rb.velocity.y);
+
+            Rb.velocity = new Vector2(moveDirection.x * _speed, Rb.velocity.y);
         }
 
         private void Jump()
         {
-            if (_isGrounded)
+            if (IsGrounded)
             {
-                _rb.velocity = new Vector2(_rb.velocity.x, _jumpForce);
+                Rb.velocity = new Vector2(Rb.velocity.x, JumpForce);
             }
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            if (Application.isPlaying)
+                _abilityManager.DrawGizmos();
         }
     }
 }

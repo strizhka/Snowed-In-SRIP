@@ -47,7 +47,9 @@ namespace Installers
         {
             Container.Bind<InputActionReference>().WithId("Move").FromInstance(inputActionSoAsset.MoveAction).AsCached();
             Container.Bind<InputActionReference>().WithId("Jump").FromInstance(inputActionSoAsset.JumpAction).AsCached();
-            Container.Bind<InputActionReference>().WithId("Interaction").FromInstance(inputActionSoAsset.InteractionAction).AsCached();
+            Container.Bind<InputActionReference>().WithId("Interaction").FromInstance(inputActionSoAsset.EnvironmentInteraction).AsCached();
+            Container.Bind<InputActionReference>().WithId("ObjectInteraction").FromInstance(inputActionSoAsset.ObjectInteraction).AsCached();
+            Container.Bind<InputActionReference>().WithId("PropellerTail").FromInstance(inputActionSoAsset.PropellerTail).AsCached();
         }
         
         private void BindUIActions()

@@ -21,7 +21,7 @@ namespace Input
 
         public void Tick()
         {
-            LogActiveReaders();
+            //LogActiveReaders();
         }
 
         public void SetActiveInputHandler(InputHandlerType inputHandlerType)
