@@ -1,6 +1,6 @@
 ﻿using Zenject;
 
-namespace PlayerSystem
+namespace PlayerSystem.AbilitySystem
 {
     public abstract class BaseAbility
     {

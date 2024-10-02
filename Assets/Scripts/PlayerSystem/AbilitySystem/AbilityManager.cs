@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 using Zenject;
 
-namespace PlayerSystem
+namespace PlayerSystem.AbilitySystem
 {
     public class AbilityManager
     {

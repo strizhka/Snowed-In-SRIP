@@ -2,7 +2,7 @@
 using UnityEngine;
 using Zenject;
 
-namespace PlayerSystem
+namespace PlayerSystem.AbilitySystem.Abilities
 {
     public class DoubleJumpAbility : BaseAbility
     {
@@ -21,20 +21,20 @@ namespace PlayerSystem
         public override void Enable()
         {
             base.Enable();
-            _inputReader.OnJumpTriggered += PerformDoubleJump;
+            _inputReader.OnJumpStarted += PerformDoubleJump;
         }
 
         public override void Disable()
         {
             base.Disable();
-            _inputReader.OnJumpTriggered -= PerformDoubleJump;
+            _inputReader.OnJumpStarted -= PerformDoubleJump;
         }
 
         public override void Execute()
         {
             base.Execute();
 
-            if (_player.IsGrounded)
+            if (_player.LastOnGroundTime > 0)
             {
                 _isDoubleJumpAvailable = true;
             }
@@ -42,9 +42,10 @@ namespace PlayerSystem
 
         private void PerformDoubleJump()
         {
-            if (_isDoubleJumpAvailable && !_player.IsGrounded)
+            if (_isDoubleJumpAvailable && _player.LastOnGroundTime < 0)
             {
-                _player.Rb.velocity = new Vector2(_player.Rb.velocity.x, _player.JumpForce);
+                _player.Rb.velocity = new Vector2(_player.Rb.velocity.x, 0);
+                _player.Jump(_player.Data.doubleJumpForce);
                 _isDoubleJumpAvailable = false;
             }
         }

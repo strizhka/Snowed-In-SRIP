@@ -1,4 +1,4 @@
-﻿namespace PlayerSystem
+﻿namespace PlayerSystem.AbilitySystem
 {
     public enum Ability
     {
