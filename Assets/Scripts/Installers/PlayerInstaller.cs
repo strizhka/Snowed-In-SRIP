@@ -14,7 +14,9 @@ namespace Installers
         [SerializeField] private Player _player;
         [SerializeField] private PlayerData _playerData;
         [SerializeField] private float _attackRange = 1f;
+        [SerializeField] private float _searchRange = 1f;
         [SerializeField] private LayerMask _interactiveLayerMask;
+        [SerializeField] private LayerMask _hiddenWallsLayerMask;
         [SerializeField] private float _cooldownTime = 1f;
         
         public override void InstallBindings()
@@ -24,6 +26,9 @@ namespace Installers
 
             Container.Bind<BaseAbility>().To<DoubleJumpAbility>().AsTransient();
             Container.Bind<BaseAbility>().To<PropellerTailAbility>().AsTransient();
+            Container.Bind<BaseAbility>().To<LocatorAbility>()
+                .AsTransient()
+                .WithArguments(_cooldownTime, _searchRange, _hiddenWallsLayerMask);
             Container.Bind<BaseAbility>().To<ObjectInteractionAbility>()
                 .AsTransient()
                 .WithArguments(_cooldownTime, _attackRange, _interactiveLayerMask);

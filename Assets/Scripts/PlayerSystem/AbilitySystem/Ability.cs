@@ -4,6 +4,7 @@
     {
         DoubleJump,
         ObjectInteraction,
-        PropellerTail
+        PropellerTail,
+        Locator
     }
 }

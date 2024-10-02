@@ -62,6 +62,7 @@ namespace PlayerSystem
             _abilityManager.EnableAbility(Ability.ObjectInteraction);
             _abilityManager.EnableAbility(Ability.DoubleJump);
             _abilityManager.EnableAbility(Ability.PropellerTail);
+            _abilityManager.EnableAbility(Ability.Locator);
         }
 
         private void OnDisable()
