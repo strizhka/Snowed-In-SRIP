@@ -2,7 +2,7 @@
 using UnityEngine;
 using Zenject;
 
-namespace PlayerSystem
+namespace PlayerSystem.AbilitySystem.Abilities
 {
     public class ObjectInteractionAbility : BaseAbility
     {

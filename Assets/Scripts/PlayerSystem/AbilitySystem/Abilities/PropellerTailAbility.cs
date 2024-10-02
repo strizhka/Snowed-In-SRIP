@@ -1,5 +1,5 @@
 using Input.Readers;
-using UnityEngine;
+using PlayerSystem.AbilitySystem;
 using Zenject;
 
 namespace PlayerSystem
@@ -7,11 +7,9 @@ namespace PlayerSystem
     public class PropellerTailAbility : BaseAbility
     {
         public override Ability Ability => Ability.PropellerTail;
-
-
+        
         private float _gravityScale = 0.5f;
-
-
+        
         private bool _isPropellerTailAvailable;
         private readonly GameplayInputReader _inputReader;
 
@@ -47,14 +45,12 @@ namespace PlayerSystem
                 _isPropellerTailAvailable = false;
 
                 _player.Rb.gravityScale = 1;
-
             }
         }
 
         private void PerformPropellerTail()
         {
-
-            if (_isPropellerTailAvailable && !_player.IsGrounded)       // temp solution while there is no hold button
+            if (_isPropellerTailAvailable && !_player.IsGrounded) // TODO: temp solution while there is no hold button
             {
                 _player.Rb.gravityScale = _gravityScale;
             }

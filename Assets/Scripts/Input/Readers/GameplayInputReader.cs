@@ -21,14 +21,16 @@ namespace Input.Readers
         private InputAction _propellerTailAction;
 
         private Action<InputAction.CallbackContext> _moveActionDelegate;
-        private Action<InputAction.CallbackContext> _jumpActionDelegate;
+        private Action<InputAction.CallbackContext> _jumpStartedActionDelegate;
+        private Action<InputAction.CallbackContext> _jumpCancelledActionDelegate;
         private Action<InputAction.CallbackContext> _interactionActionDelegate;
         private Action<InputAction.CallbackContext> _objectInteractionActionDelegate;
         private Action<InputAction.CallbackContext> _propellerTailActionDelegate;
 
         public Vector2 MoveInput { get; private set; }
 
-        public Action OnJumpTriggered;
+        public Action OnJumpStarted;
+        public Action OnJumpCancelled;
  
         public Action OnInteractionTriggered;
 
@@ -67,8 +69,11 @@ namespace Input.Readers
             _moveActionDelegate = _ => MoveInput = Vector2.zero;
             _moveAction.canceled += _moveActionDelegate;
 
-            _jumpActionDelegate = _ => OnJumpTriggered?.Invoke();
-            _jumpAction.performed += _jumpActionDelegate;
+            _jumpStartedActionDelegate = _ => OnJumpStarted?.Invoke();
+            _jumpAction.started += _jumpStartedActionDelegate;
+            
+            _jumpCancelledActionDelegate = _ => OnJumpCancelled?.Invoke();
+            _jumpAction.canceled += _jumpCancelledActionDelegate;
 
             _interactionActionDelegate = _ => OnInteractionTriggered?.Invoke();
             _interactionAction.performed += _interactionActionDelegate;
@@ -84,7 +89,8 @@ namespace Input.Readers
         {
             _moveAction.performed -= _moveActionDelegate;
             _moveAction.canceled -= _moveActionDelegate;
-            _jumpAction.performed -= _jumpActionDelegate;
+            _jumpAction.started -= _jumpStartedActionDelegate;
+            _jumpAction.canceled -= _jumpCancelledActionDelegate;
             _interactionAction.performed -= _interactionActionDelegate;
             _objectInteractionAction.performed -= _objectInteractionActionDelegate;
             _propellerTailAction.performed -= _propellerTailActionDelegate;

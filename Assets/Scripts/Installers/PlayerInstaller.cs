@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using Input.Readers;
 using PlayerSystem;
+using PlayerSystem.AbilitySystem;
+using PlayerSystem.AbilitySystem.Abilities;
 using UnityEngine;
 using Zenject;
 
@@ -10,12 +12,14 @@ namespace Installers
     {
         [Header("Object Interaction Settings")] 
         [SerializeField] private Player _player;
+        [SerializeField] private PlayerData _playerData;
         [SerializeField] private float _attackRange = 1f;
         [SerializeField] private LayerMask _interactiveLayerMask;
         [SerializeField] private float _cooldownTime = 1f;
         
         public override void InstallBindings()
         {
+            Container.Bind<PlayerData>().FromInstance(_playerData).AsSingle();
             Container.Bind<Player>().FromInstance(_player).AsSingle();
 
             Container.Bind<BaseAbility>().To<DoubleJumpAbility>().AsTransient();
