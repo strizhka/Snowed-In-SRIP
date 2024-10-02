@@ -51,9 +51,6 @@ namespace PlayerSystem
 
                 Collider2D[] objectsInRange = Physics2D.OverlapCircleAll(_player.transform.position, _searchRange, _hiddenWallsLayerMask);
 
-                Debug.Log(_hiddenWallsLayerMask.value);
-                Debug.Log(_searchRange.ToString());
-
                 foreach (Collider2D col in objectsInRange)
                 {
                     SpriteRenderer spriteRenderer = col.GetComponent<SpriteRenderer>();

@@ -73,6 +73,7 @@ namespace PlayerSystem
             _abilityManager.DisableAbility(Ability.ObjectInteraction);
             _abilityManager.DisableAbility(Ability.DoubleJump);
             _abilityManager.DisableAbility(Ability.PropellerTail);
+            _abilityManager.EnableAbility(Ability.Locator);
         }
 
         #endregion
@@ -147,28 +148,31 @@ namespace PlayerSystem
 
         private void ChangeGravity()
         {
-            if (Rb.velocity.y < 0 && _gameplayInputReader.MoveInput.y < 0)
+            if (!PropellerTailAbility.IsFloating)
             {
-                SetGravityScale(Data.gravityScale * Data.fastFallGravityMult);
-                Rb.velocity = new Vector2(Rb.velocity.x, Mathf.Max(Rb.velocity.y, -Data.maxFastFallSpeed));
-            }
-            else if (_isJumpCut)
-            {
-                SetGravityScale(Data.gravityScale * Data.jumpCutGravityMult);
-                Rb.velocity = new Vector2(Rb.velocity.x, Mathf.Max(Rb.velocity.y, -Data.maxFallSpeed));
-            }
-            else if ((IsJumping || _isJumpFalling) && Mathf.Abs(Rb.velocity.y) < Data.jumpHangTimeThreshold)
-            {
-                SetGravityScale(Data.gravityScale * Data.jumpHangGravityMult);
-            }
-            else if (Rb.velocity.y < 0)
-            {
-                SetGravityScale(Data.gravityScale * Data.fallGravityMult);
-                Rb.velocity = new Vector2(Rb.velocity.x, Mathf.Max(Rb.velocity.y, -Data.maxFallSpeed));
-            }
-            else
-            {
-                SetGravityScale(Data.gravityScale);
+                if (Rb.velocity.y < 0 && _gameplayInputReader.MoveInput.y < 0)
+                {
+                    SetGravityScale(Data.gravityScale * Data.fastFallGravityMult);
+                    Rb.velocity = new Vector2(Rb.velocity.x, Mathf.Max(Rb.velocity.y, -Data.maxFastFallSpeed));
+                }
+                else if (_isJumpCut)
+                {
+                    SetGravityScale(Data.gravityScale * Data.jumpCutGravityMult);
+                    Rb.velocity = new Vector2(Rb.velocity.x, Mathf.Max(Rb.velocity.y, -Data.maxFallSpeed));
+                }
+                else if ((IsJumping || _isJumpFalling) && Mathf.Abs(Rb.velocity.y) < Data.jumpHangTimeThreshold)
+                {
+                    SetGravityScale(Data.gravityScale * Data.jumpHangGravityMult);
+                }
+                else if (Rb.velocity.y < 0)
+                {
+                    SetGravityScale(Data.gravityScale * Data.fallGravityMult);
+                    Rb.velocity = new Vector2(Rb.velocity.x, Mathf.Max(Rb.velocity.y, -Data.maxFallSpeed));
+                }
+                else
+                {
+                    SetGravityScale(Data.gravityScale);
+                }
             }
         }
 

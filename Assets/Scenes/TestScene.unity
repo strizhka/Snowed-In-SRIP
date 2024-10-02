@@ -7359,6 +7359,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   _cooldownTime: 1
+  _gravityScale: 0.3
+  _velocityScale: 0.6
 --- !u!4 &222924789
 Transform:
   m_ObjectHideFlags: 0

@@ -27,7 +27,8 @@ namespace Input.Readers
         private Action<InputAction.CallbackContext> _jumpCancelledActionDelegate;
         private Action<InputAction.CallbackContext> _interactionActionDelegate;
         private Action<InputAction.CallbackContext> _objectInteractionActionDelegate;
-        private Action<InputAction.CallbackContext> _propellerTailActionDelegate;
+        private Action<InputAction.CallbackContext> _propellerTailStartedActionDelegate;
+        private Action<InputAction.CallbackContext> _propellerTailCanceledActionDelegate;
         private Action<InputAction.CallbackContext> _locatorActionDelegate;
 
         public Vector2 MoveInput { get; private set; }
@@ -39,7 +40,8 @@ namespace Input.Readers
 
         public Action OnObjectInteractionTriggered;
 
-        public Action OnPropellerTailTriggered;
+        public Action OnPropellerTailStarted;
+        public Action OnPropellerTailCanceled;
 
         public Action OnLocatorTriggered;
 
@@ -89,8 +91,11 @@ namespace Input.Readers
             _objectInteractionActionDelegate = _ => OnObjectInteractionTriggered?.Invoke();
             _objectInteractionAction.performed += _objectInteractionActionDelegate;
 
-            _propellerTailActionDelegate = _ => OnPropellerTailTriggered?.Invoke();
-            _propellerTailAction.performed += _propellerTailActionDelegate;
+            _propellerTailStartedActionDelegate = _ => OnPropellerTailStarted?.Invoke();
+            _propellerTailAction.started += _propellerTailStartedActionDelegate;
+
+            _propellerTailCanceledActionDelegate = _ => OnPropellerTailCanceled?.Invoke();
+            _propellerTailAction.canceled += _propellerTailCanceledActionDelegate;
 
             _locatorActionDelegate = _ => OnLocatorTriggered?.Invoke();
             _locatorAction.performed += _locatorActionDelegate;
@@ -104,7 +109,8 @@ namespace Input.Readers
             _jumpAction.canceled -= _jumpCancelledActionDelegate;
             _interactionAction.performed -= _interactionActionDelegate;
             _objectInteractionAction.performed -= _objectInteractionActionDelegate;
-            _propellerTailAction.performed -= _propellerTailActionDelegate;
+            _propellerTailAction.started -= _propellerTailStartedActionDelegate;
+            _propellerTailAction.canceled -= _propellerTailCanceledActionDelegate;
             _locatorAction.performed -= _locatorActionDelegate;
         }
 

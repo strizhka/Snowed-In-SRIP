@@ -18,14 +18,18 @@ namespace Installers
         [SerializeField] private LayerMask _interactiveLayerMask;
         [SerializeField] private LayerMask _hiddenWallsLayerMask;
         [SerializeField] private float _cooldownTime = 1f;
-        
+        [SerializeField] private float _gravityScale = 1f;
+        [SerializeField] private float _velocityScale = 1f;
+
         public override void InstallBindings()
         {
             Container.Bind<PlayerData>().FromInstance(_playerData).AsSingle();
             Container.Bind<Player>().FromInstance(_player).AsSingle();
 
             Container.Bind<BaseAbility>().To<DoubleJumpAbility>().AsTransient();
-            Container.Bind<BaseAbility>().To<PropellerTailAbility>().AsTransient();
+            Container.Bind<BaseAbility>().To<PropellerTailAbility>()
+                .AsTransient()
+                .WithArguments(_gravityScale, _velocityScale);
             Container.Bind<BaseAbility>().To<LocatorAbility>()
                 .AsTransient()
                 .WithArguments(_cooldownTime, _searchRange, _hiddenWallsLayerMask);
