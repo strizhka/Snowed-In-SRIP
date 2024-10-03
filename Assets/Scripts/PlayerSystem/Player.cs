@@ -147,6 +147,18 @@ namespace PlayerSystem
             }
         }
 
+        private void CheckTurn()
+        {
+            if (_gameplayInputReader.MoveInput.x > 0 && !IsFacingRight)
+            {
+                Turn();
+            }
+            else if (_gameplayInputReader.MoveInput.x < 0 && IsFacingRight)
+            {
+                Turn();
+            }
+        }
+
         private void ChangeGravity()
         {
             if (!PropellerTailAbility.IsFloating)
@@ -180,6 +192,11 @@ namespace PlayerSystem
         private void FixedUpdate()
         {
             Move();
+
+            if (_gameplayInputReader.MoveInput.x != 0)
+            {
+                CheckTurn();
+            }
         }
 
         private void Move()
@@ -252,11 +269,19 @@ namespace PlayerSystem
 
         private void Turn()
         {
-            Vector3 scale = transform.localScale;
-            scale.x *= -1;
-            transform.localScale = scale;
+            if (IsFacingRight)
+            {
+                Vector3 rotator = new Vector3(transform.rotation.x, 180f, transform.rotation.z);
+                transform.rotation = Quaternion.Euler(rotator);
+                IsFacingRight = !IsFacingRight;
+            }
 
-            IsFacingRight = !IsFacingRight;
+            else
+            {
+                Vector3 rotator = new Vector3(transform.rotation.x, 0f, transform.rotation.z);
+                transform.rotation = Quaternion.Euler(rotator);
+                IsFacingRight = !IsFacingRight;
+            }
         }
 
         private void SetGravityScale(float gravityScale)
