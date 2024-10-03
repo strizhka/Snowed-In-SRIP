@@ -49,10 +49,11 @@ namespace PlayerSystem.AbilitySystem.Abilities
 
         private void OnPropellerInput()
         {
-            if (_isPropellerTailAvailable && _player.LastOnGroundTime < 0 && _player.Rb.velocity.y < 3)
+            if (_isPropellerTailAvailable && _player.LastOnGroundTime < 0)
             {
                 _isPropellerTailActive = true;
                 IsFloating = true;
+
                 // Сохраняем начальную скорость по Y для плавного изменения
                 _initialYVelocity = _player.Rb.velocity.y;
                 _elapsedTime = 0f; // обнуляем таймер для плавного изменения
