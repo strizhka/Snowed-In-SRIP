@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   oneShot: 0
-  collisionTag: 
+  collisionTag: Player
   onTriggerEnter:
     m_PersistentCalls:
       m_Calls: []
