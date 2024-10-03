@@ -1,9 +1,8 @@
 using Input.Readers;
-using PlayerSystem.AbilitySystem;
 using UnityEngine;
 using Zenject;
 
-namespace PlayerSystem
+namespace PlayerSystem.AbilitySystem.Abilities
 {
     public class PropellerTailAbility : BaseAbility
     {
@@ -12,20 +11,26 @@ namespace PlayerSystem
         public static bool IsFloating = false;
         
         private readonly float _gravityScale;
-        
-        private readonly float _velocityScale;
 
         private bool _isPropellerTailAvailable;
+
+        private bool _isPropellerTailActive;
+
+        private readonly float _targetYVelocity;
+        private readonly float _timeToReachTarget;
+        private float _initialYVelocity;
+        private float _elapsedTime;
 
         private readonly GameplayInputReader _inputReader;
 
         [Inject]
-        public PropellerTailAbility(Player player, GameplayInputReader inputReader, float gravityScale, float velocityScale)
+        public PropellerTailAbility(Player player, GameplayInputReader inputReader, float gravityScale, float targetYVelocity, float timeToReachTarget)
         {
             _player = player;
             _inputReader = inputReader;
             _gravityScale = gravityScale;
-            _velocityScale = velocityScale;
+            _targetYVelocity = targetYVelocity;
+            _timeToReachTarget = timeToReachTarget;
         }
 
         public override void Enable()
@@ -44,11 +49,13 @@ namespace PlayerSystem
 
         private void OnPropellerInput()
         {
-            if (_isPropellerTailAvailable && _player.LastOnGroundTime < 0)
+            if (_isPropellerTailAvailable && _player.LastOnGroundTime < 0 && _player.Rb.velocity.y < 3)
             {
+                _isPropellerTailActive = true;
                 IsFloating = true;
-                Vector2 velocity = _player.Rb.velocity;
-                _player.Rb.velocity = new Vector2(velocity.x * 0, velocity.y * _velocityScale);
+                // Сохраняем начальную скорость по Y для плавного изменения
+                _initialYVelocity = _player.Rb.velocity.y;
+                _elapsedTime = 0f; // обнуляем таймер для плавного изменения
                 _player.Rb.gravityScale = _gravityScale;
                 
             }
@@ -56,6 +63,7 @@ namespace PlayerSystem
 
         private void OnPropellerUpInput()
         {
+            _isPropellerTailActive = false;
             IsFloating = false;
             _player.Rb.gravityScale = 1;
         }
@@ -73,6 +81,20 @@ namespace PlayerSystem
                 _isPropellerTailAvailable = false;
 
                 _player.Rb.gravityScale = 1;
+            }
+
+            if (_isPropellerTailActive)
+            {
+                _elapsedTime += Time.deltaTime;
+
+                float newYVelocity = Mathf.Lerp(_initialYVelocity, _targetYVelocity, _elapsedTime / _timeToReachTarget);
+
+                if (_elapsedTime >= _timeToReachTarget)
+                {
+                    newYVelocity = _targetYVelocity;
+                }
+
+                _player.Rb.velocity = new Vector2(_player.Rb.velocity.x, newYVelocity);
             }
         }
     }

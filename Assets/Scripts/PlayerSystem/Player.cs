@@ -1,6 +1,7 @@
 ﻿using DebugLogic;
 using Input.Readers;
 using PlayerSystem.AbilitySystem;
+using PlayerSystem.AbilitySystem.Abilities;
 using UnityEngine;
 using Zenject;
 
@@ -98,11 +99,11 @@ namespace PlayerSystem
             LastOnGroundTime -= Time.deltaTime;
             LastPressedJumpTime -= Time.deltaTime;
 
-            _abilityManager.UpdateAbilities();
-
             CheckCollision();
             CheckJump();
             ChangeGravity();
+
+            _abilityManager.UpdateAbilities();
         }
 
         private void CheckCollision()

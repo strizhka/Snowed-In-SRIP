@@ -7350,17 +7350,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _player: {fileID: 743979459}
   _playerData: {fileID: 11400000, guid: d2bcba8248684ab4f998be4571158cd2, type: 2}
-  _attackRange: 2
-  _searchRange: 2
-  _interactiveLayerMask:
-    serializedVersion: 2
-    m_Bits: 128
-  _hiddenWallsLayerMask:
-    serializedVersion: 2
-    m_Bits: 256
-  _cooldownTime: 1
-  _gravityScale: 0.3
-  _velocityScale: 0.6
+  _abilitiesData: {fileID: 11400000, guid: 1361032d97b43ed4d8e7ef28bbbcc129, type: 2}
 --- !u!4 &222924789
 Transform:
   m_ObjectHideFlags: 0

@@ -1,13 +1,9 @@
 using DG.Tweening;
 using Input.Readers;
-using PlayerSystem.AbilitySystem;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 
-namespace PlayerSystem
+namespace PlayerSystem.AbilitySystem.Abilities
 {
     public class LocatorAbility : BaseAbility
     {
