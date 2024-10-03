@@ -14,6 +14,7 @@ namespace Input
         [field: SerializeField] public InputActionReference EnvironmentInteraction { get; private set;}
         [field: SerializeField] public InputActionReference ObjectInteraction { get; private set; }
         [field: SerializeField] public InputActionReference PropellerTail { get; private set; }
+        [field: SerializeField] public InputActionReference Locator { get; private set; }
 
         [field: Header("UI Actions")]
         [field: SerializeField] public InputActionReference NavigateAction { get; private set;}

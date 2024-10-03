@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace PlayerSystem
 {
-	[CreateAssetMenu(menuName = "Player Data")]
+	[CreateAssetMenu(menuName = "ScriptableObjects/PlayerData", fileName = "PlayerData")]
 	public class PlayerData : ScriptableObject
 	{
 		[Header("Gravity")]

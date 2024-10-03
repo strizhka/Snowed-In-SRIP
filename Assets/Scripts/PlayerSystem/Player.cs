@@ -1,6 +1,7 @@
 ﻿using DebugLogic;
 using Input.Readers;
 using PlayerSystem.AbilitySystem;
+using PlayerSystem.AbilitySystem.Abilities;
 using UnityEngine;
 using Zenject;
 
@@ -62,6 +63,7 @@ namespace PlayerSystem
             _abilityManager.EnableAbility(Ability.ObjectInteraction);
             _abilityManager.EnableAbility(Ability.DoubleJump);
             _abilityManager.EnableAbility(Ability.PropellerTail);
+            _abilityManager.EnableAbility(Ability.Locator);
         }
 
         private void OnDisable()
@@ -72,6 +74,7 @@ namespace PlayerSystem
             _abilityManager.DisableAbility(Ability.ObjectInteraction);
             _abilityManager.DisableAbility(Ability.DoubleJump);
             _abilityManager.DisableAbility(Ability.PropellerTail);
+            _abilityManager.EnableAbility(Ability.Locator);
         }
 
         #endregion
@@ -96,11 +99,11 @@ namespace PlayerSystem
             LastOnGroundTime -= Time.deltaTime;
             LastPressedJumpTime -= Time.deltaTime;
 
-            _abilityManager.UpdateAbilities();
-
             CheckCollision();
             CheckJump();
             ChangeGravity();
+
+            _abilityManager.UpdateAbilities();
         }
 
         private void CheckCollision()
@@ -144,36 +147,56 @@ namespace PlayerSystem
             }
         }
 
+        private void CheckTurn()
+        {
+            if (_gameplayInputReader.MoveInput.x > 0 && !IsFacingRight)
+            {
+                Turn();
+            }
+            else if (_gameplayInputReader.MoveInput.x < 0 && IsFacingRight)
+            {
+                Turn();
+            }
+        }
+
         private void ChangeGravity()
         {
-            if (Rb.velocity.y < 0 && _gameplayInputReader.MoveInput.y < 0)
+            if (!PropellerTailAbility.IsFloating)
             {
-                SetGravityScale(Data.gravityScale * Data.fastFallGravityMult);
-                Rb.velocity = new Vector2(Rb.velocity.x, Mathf.Max(Rb.velocity.y, -Data.maxFastFallSpeed));
-            }
-            else if (_isJumpCut)
-            {
-                SetGravityScale(Data.gravityScale * Data.jumpCutGravityMult);
-                Rb.velocity = new Vector2(Rb.velocity.x, Mathf.Max(Rb.velocity.y, -Data.maxFallSpeed));
-            }
-            else if ((IsJumping || _isJumpFalling) && Mathf.Abs(Rb.velocity.y) < Data.jumpHangTimeThreshold)
-            {
-                SetGravityScale(Data.gravityScale * Data.jumpHangGravityMult);
-            }
-            else if (Rb.velocity.y < 0)
-            {
-                SetGravityScale(Data.gravityScale * Data.fallGravityMult);
-                Rb.velocity = new Vector2(Rb.velocity.x, Mathf.Max(Rb.velocity.y, -Data.maxFallSpeed));
-            }
-            else
-            {
-                SetGravityScale(Data.gravityScale);
+                if (Rb.velocity.y < 0 && _gameplayInputReader.MoveInput.y < 0)
+                {
+                    SetGravityScale(Data.gravityScale * Data.fastFallGravityMult);
+                    Rb.velocity = new Vector2(Rb.velocity.x, Mathf.Max(Rb.velocity.y, -Data.maxFastFallSpeed));
+                }
+                else if (_isJumpCut)
+                {
+                    SetGravityScale(Data.gravityScale * Data.jumpCutGravityMult);
+                    Rb.velocity = new Vector2(Rb.velocity.x, Mathf.Max(Rb.velocity.y, -Data.maxFallSpeed));
+                }
+                else if ((IsJumping || _isJumpFalling) && Mathf.Abs(Rb.velocity.y) < Data.jumpHangTimeThreshold)
+                {
+                    SetGravityScale(Data.gravityScale * Data.jumpHangGravityMult);
+                }
+                else if (Rb.velocity.y < 0)
+                {
+                    SetGravityScale(Data.gravityScale * Data.fallGravityMult);
+                    Rb.velocity = new Vector2(Rb.velocity.x, Mathf.Max(Rb.velocity.y, -Data.maxFallSpeed));
+                }
+                else
+                {
+                    SetGravityScale(Data.gravityScale);
+                }
             }
         }
 
         private void FixedUpdate()
         {
             Move();
+
+            if (_gameplayInputReader.MoveInput.x != 0)
+            {
+                CheckTurn();
+            }
         }
 
         private void Move()
@@ -246,11 +269,19 @@ namespace PlayerSystem
 
         private void Turn()
         {
-            Vector3 scale = transform.localScale;
-            scale.x *= -1;
-            transform.localScale = scale;
+            if (IsFacingRight)
+            {
+                Vector3 rotator = new Vector3(transform.rotation.x, 180f, transform.rotation.z);
+                transform.rotation = Quaternion.Euler(rotator);
+                IsFacingRight = !IsFacingRight;
+            }
 
-            IsFacingRight = !IsFacingRight;
+            else
+            {
+                Vector3 rotator = new Vector3(transform.rotation.x, 0f, transform.rotation.z);
+                transform.rotation = Quaternion.Euler(rotator);
+                IsFacingRight = !IsFacingRight;
+            }
         }
 
         private void SetGravityScale(float gravityScale)
