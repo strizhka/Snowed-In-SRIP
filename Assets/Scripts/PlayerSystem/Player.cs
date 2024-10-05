@@ -4,6 +4,7 @@ using PlayerSystem.AbilitySystem;
 using PlayerSystem.AbilitySystem.Abilities;
 using UnityEngine;
 using Zenject;
+using FMOD.Studio;
 
 namespace PlayerSystem
 {
@@ -18,6 +19,7 @@ namespace PlayerSystem
         private GameplayInputReader _gameplayInputReader;
         private GameStateMachine _gameStateMachine;
         private AbilityManager _abilityManager;
+        private EventInstance _snowFootsteps;
 
         public PlayerData Data { get; private set; }
         public Rigidbody2D Rb { get; private set; }
@@ -50,9 +52,9 @@ namespace PlayerSystem
 
         private void Start()
         {
-            Debug.Log(Data.gravityScale);
             SetGravityScale(Data.gravityScale);
             _gameStateMachine.ChangeState(GameState.Gameplay);
+            _snowFootsteps = AudioManager.instance.CreateInstance(FMODEvents.instance.playerSnowFootsteps);
         }
 
         private void OnEnable()
@@ -104,6 +106,18 @@ namespace PlayerSystem
             ChangeGravity();
 
             _abilityManager.UpdateAbilities();
+        }
+
+        private void FixedUpdate()
+        {
+            Move();
+
+            if (_gameplayInputReader.MoveInput.x != 0)
+            {
+                CheckTurn();
+            }
+
+            UpdateSound();
         }
 
         private void CheckCollision()
@@ -186,16 +200,6 @@ namespace PlayerSystem
                 {
                     SetGravityScale(Data.gravityScale);
                 }
-            }
-        }
-
-        private void FixedUpdate()
-        {
-            Move();
-
-            if (_gameplayInputReader.MoveInput.x != 0)
-            {
-                CheckTurn();
             }
         }
 
@@ -307,6 +311,23 @@ namespace PlayerSystem
         private bool CanJumpCut()
         {
             return IsJumping && Rb.velocity.y > 0;
+        }
+
+        private void UpdateSound()
+        {
+            if (_gameplayInputReader.MoveInput.x != 0 && LastOnGroundTime > 0)
+            {
+                PLAYBACK_STATE playbackState;
+                _snowFootsteps.getPlaybackState(out playbackState);
+                if (playbackState.Equals(PLAYBACK_STATE.STOPPED))
+                {
+                    _snowFootsteps.start();
+                }
+            }
+            else
+            {
+                _snowFootsteps.stop(STOP_MODE.ALLOWFADEOUT);
+            }
         }
     }
 }
