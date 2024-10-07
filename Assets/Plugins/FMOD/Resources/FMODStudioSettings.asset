@@ -526,8 +526,8 @@ MonoBehaviour:
   switchSettingsMigration: 1
   HasSourceProject: 1
   HasPlatforms: 1
-  sourceProjectPath: ../../Snowed In/Snowed-In/Snowed-In-audio-system/Snowed-In-audio-system.fspro
-  sourceBankPath: ../../Snowed In/Snowed-In/Snowed-In-audio-system/Build
+  sourceProjectPath: Snowed-In-audio-system/Snowed-In-audio-system.fspro
+  sourceBankPath: Snowed-In-audio-system/Build
   sourceBankPathUnformatted: 
   BankRefreshCooldown: 5
   ShowBankRefreshWindow: 1
