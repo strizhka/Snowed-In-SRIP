@@ -10,6 +10,8 @@ namespace PlayerSystem
     [RequireComponent(typeof(Rigidbody2D))]
     public class Player : MonoBehaviour
     {
+        private static readonly int SpeedMultiplier = Animator.StringToHash("SpeedMultiplier");
+
         [Header("Ground Check")]
         [SerializeField] private float _groundCheckRadius = 0.2f;
         [SerializeField] private LayerMask _groundLayer;
@@ -21,6 +23,7 @@ namespace PlayerSystem
 
         public PlayerData Data { get; private set; }
         public Rigidbody2D Rb { get; private set; }
+        public Animator AnimHandler { get; private set; }
         [field: SerializeField, ReadOnly] public bool IsGrounded { get; private set; }
 
         [field: SerializeField, ReadOnly] public bool IsFacingRight { get; private set; }
@@ -46,6 +49,7 @@ namespace PlayerSystem
         private void Awake()
         {
             Rb = GetComponent<Rigidbody2D>();
+            AnimHandler = GetComponent<Animator>();
         }
 
         private void Start()
@@ -192,6 +196,7 @@ namespace PlayerSystem
         private void FixedUpdate()
         {
             Move();
+            AnimHandler.SetFloat(SpeedMultiplier, Mathf.Abs(Rb.velocity.x) / Data.runMaxSpeed);
 
             if (_gameplayInputReader.MoveInput.x != 0)
             {
@@ -243,6 +248,11 @@ namespace PlayerSystem
             float movement = speedDif * accelRate;
 
             Rb.AddForce(movement * Vector2.right, ForceMode2D.Force);
+
+            if (Mathf.Abs(Rb.velocity.x) < 0.01f)
+            {
+                Rb.velocity = new Vector2(0, Rb.velocity.y);
+            }
         }
 
         public void Jump(float jumpForce)
