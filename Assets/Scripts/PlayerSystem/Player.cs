@@ -112,17 +112,7 @@ namespace PlayerSystem
             _abilityManager.UpdateAbilities();
         }
 
-        private void FixedUpdate()
-        {
-            Move();
 
-            if (_gameplayInputReader.MoveInput.x != 0)
-            {
-                CheckTurn();
-            }
-
-            UpdateSound();
-        }
 
         private void CheckCollision()
         {
@@ -216,6 +206,8 @@ namespace PlayerSystem
             {
                 CheckTurn();
             }
+
+            UpdateSound();
         }
 
         private void Move()
