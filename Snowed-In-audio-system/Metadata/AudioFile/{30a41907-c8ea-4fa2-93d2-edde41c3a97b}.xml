@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{30a41907-c8ea-4fa2-93d2-edde41c3a97b}">
+		<property name="assetPath">
+			<value>houses inner music.mp3</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>167.10530612244898</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{7895833a-2af3-48a7-a985-03d15d7e1539}</destination>
+		</relationship>
+	</object>
+</objects>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{7caf4dc3-e4e1-4856-93a3-02429502e1d6}">
+		<property name="assetPath">
+			<value>windstorm-blowing-in-mountain-forest-ivo-vicic-1-01-29.mp3</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>89.887346938775508</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{7895833a-2af3-48a7-a985-03d15d7e1539}</destination>
+		</relationship>
+	</object>
+</objects>
