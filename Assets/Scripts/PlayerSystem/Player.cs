@@ -297,6 +297,11 @@ namespace PlayerSystem
 
                 Debug.DrawLine(transform.position, transform.position + (Vector3)Rb.velocity, Color.red);
             }
+
+            //draw player collider
+            Gizmos.color = Color.green;
+            Collider2D collider = GetComponent<Collider2D>();
+            Gizmos.DrawWireCube(collider.bounds.center, collider.bounds.size);
         }
 
         private bool CanJump()
