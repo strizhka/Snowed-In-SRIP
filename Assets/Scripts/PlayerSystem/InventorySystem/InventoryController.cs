@@ -15,7 +15,6 @@ namespace PlayerSystem.InventorySystem
         [Inject]
         public void Construct(ItemObject[] items, Inventory inventory, InventoryUI inventoryUI)
         {
-            Debug.Log(123);
             _items = items;
             _inventory = inventory;
             _inventoryUI = inventoryUI;

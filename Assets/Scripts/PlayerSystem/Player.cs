@@ -12,11 +12,15 @@ namespace PlayerSystem
     public class Player : MonoBehaviour
     {
         private static readonly int SpeedMultiplier = Animator.StringToHash("SpeedMultiplier");
+        private static readonly int Velocity = Animator.StringToHash("Velocity");
 
-        [Header("Ground Check")]
-        [SerializeField] private float _groundCheckRadius = 0.2f;
+        [Header("Ground Check")] [SerializeField]
+        private float _groundCheckRadius = 0.2f;
+
         [SerializeField] private LayerMask _groundLayer;
         [SerializeField] private Transform _groundCheck;
+        [SerializeField] private Sprite _playerJumpUpSprite;
+        [SerializeField] private Sprite _playerJumpDownSprite;
 
         private GameplayInputReader _gameplayInputReader;
         private GameStateMachine _gameStateMachine;
@@ -26,6 +30,7 @@ namespace PlayerSystem
         public PlayerData Data { get; private set; }
         public Rigidbody2D Rb { get; private set; }
         public Animator AnimHandler { get; private set; }
+        public SpriteRenderer SpriteRenderer { get; private set; }
         [field: SerializeField, ReadOnly] public bool IsGrounded { get; private set; }
 
         [field: SerializeField, ReadOnly] public bool IsFacingRight { get; private set; }
@@ -110,9 +115,20 @@ namespace PlayerSystem
             ChangeGravity();
 
             _abilityManager.UpdateAbilities();
+
+            switch (Rb.velocity.y)
+            {
+                case > 0:
+                    AnimHandler.SetInteger(Velocity, 1);
+                    break;
+                case < 0:
+                    AnimHandler.SetInteger(Velocity, -1);
+                    break;
+                default:
+                    AnimHandler.SetInteger(Velocity, 0);
+                    break;
+            }
         }
-
-
 
         private void CheckCollision()
         {
@@ -148,7 +164,6 @@ namespace PlayerSystem
 
             if (CanJump() && LastPressedJumpTime > 0)
             {
-
                 Jump(Data.jumpForce);
 
                 // AnimHandler.startedJumping = true;
@@ -276,7 +291,7 @@ namespace PlayerSystem
             if (Rb.velocity.y < 0)
                 force -= Rb.velocity.y;
 
-            Debug.Log(force);
+            // Debug.Log(force);
 
             Rb.AddForce(Vector2.up * force, ForceMode2D.Impulse);
 
