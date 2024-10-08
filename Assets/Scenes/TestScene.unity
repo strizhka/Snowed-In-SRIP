@@ -54798,10 +54798,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2292059035277655078, guid: 47f5fda4bd283cb47b775906202ba0eb, type: 3}
-      propertyPath: <IsFacingRight>k__BackingField
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6354090277774561436, guid: 47f5fda4bd283cb47b775906202ba0eb, type: 3}
       propertyPath: m_Name
       value: Player
