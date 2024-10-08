@@ -33,7 +33,7 @@ namespace PlayerSystem
         public SpriteRenderer SpriteRenderer { get; private set; }
         [field: SerializeField, ReadOnly] public bool IsGrounded { get; private set; }
 
-        [field: SerializeField, ReadOnly] public bool IsFacingRight { get; private set; }
+        [field: SerializeField, ReadOnly] public bool IsFacingRight { get; private set; } = true;
         [field: SerializeField, ReadOnly] public bool IsJumping { get; private set; }
         [field: SerializeField, ReadOnly] public float LastOnGroundTime { get; private set; }
         [field: SerializeField, ReadOnly] public float LastPressedJumpTime { get; private set; }
@@ -75,6 +75,7 @@ namespace PlayerSystem
             _abilityManager.EnableAbility(Ability.DoubleJump);
             _abilityManager.EnableAbility(Ability.PropellerTail);
             _abilityManager.EnableAbility(Ability.Locator);
+            _abilityManager.EnableAbility(Ability.SharpenedTeeth);
         }
 
         private void OnDisable()
@@ -86,6 +87,7 @@ namespace PlayerSystem
             _abilityManager.DisableAbility(Ability.DoubleJump);
             _abilityManager.DisableAbility(Ability.PropellerTail);
             _abilityManager.EnableAbility(Ability.Locator);
+            _abilityManager.DisableAbility(Ability.SharpenedTeeth);
         }
 
         #endregion
@@ -135,7 +137,8 @@ namespace PlayerSystem
             if (!IsJumping)
             {
                 //Ground Check
-                if (Physics2D.OverlapCircle(_groundCheck.position, _groundCheckRadius, _groundLayer)) //checks if set box overlaps with ground
+                if (Physics2D.OverlapCircle(_groundCheck.position, _groundCheckRadius,
+                        _groundLayer)) //checks if set box overlaps with ground
                 {
                     // if(LastOnGroundTime < -0.1f)
                     // {

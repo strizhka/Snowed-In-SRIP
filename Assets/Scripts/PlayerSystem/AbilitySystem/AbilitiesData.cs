@@ -10,9 +10,14 @@ namespace PlayerSystem.AbilitySystem
         [field: SerializeField] public LayerMask HiddenWallsLayerMask { get; private set; }
 
         [field: Header("Object Interaction Ability")]
-        [field: SerializeField] public float AttackRange { get; private set; } = 1f;
+        [field: SerializeField] public float InteractionAttackRange { get; private set; } = 1f;
         [field: SerializeField] public LayerMask InteractiveLayerMask { get; private set; }
-        [field: SerializeField] public float CooldownTime { get; private set; } = 1f;
+        [field: SerializeField] public float InteractionCooldownTime { get; private set; } = 1f;
+
+        [field: Header("Object Interaction Ability")]
+        [field: SerializeField] public float TeethAttackRange { get; private set; } = 1f;
+        [field: SerializeField] public LayerMask TeethLayerMask { get; private set; }
+        [field: SerializeField] public float TeethCooldownTime { get; private set; } = 1f;
 
         [field: Header("Propeller Tail Ability")]
         [field: SerializeField] public float GravityScale { get; private set; } = 1f;

@@ -5,6 +5,7 @@
         DoubleJump,
         ObjectInteraction,
         PropellerTail,
-        Locator
+        Locator,
+        SharpenedTeeth
     }
 }

@@ -58,6 +58,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SharpenedTeeth",
+                    "type": "Button",
+                    "id": "7bdc377a-13eb-4f2d-866e-d7c4761b44f0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -355,6 +364,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Locator",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fbe0905d-e611-4b4d-8ef1-f193150304ce",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SharpenedTeeth",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

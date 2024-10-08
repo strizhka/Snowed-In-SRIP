@@ -4,10 +4,10 @@ using Zenject;
 
 namespace PlayerSystem.AbilitySystem.Abilities
 {
-    // TODO: Refactor this class with SharpenedTeethAbility
-    public class ObjectInteractionAbility : BaseAbility
+    // TODO: Refactor this class with ObjectInteractionAbility
+    public class SharpenedTeethAbility : BaseAbility
     {
-        public override Ability Ability => Ability.ObjectInteraction;
+        public override Ability Ability => Ability.SharpenedTeeth;
 
         private readonly float _cooldownTime;
         private readonly float _attackRange;
@@ -17,7 +17,7 @@ namespace PlayerSystem.AbilitySystem.Abilities
         private float _lastAttack = -Mathf.Infinity;
 
         [Inject]
-        public ObjectInteractionAbility(Player player, GameplayInputReader inputReader, float cooldownTime, float attackRange, LayerMask interactiveLayerMask)
+        public SharpenedTeethAbility(Player player, GameplayInputReader inputReader, float cooldownTime, float attackRange, LayerMask interactiveLayerMask)
         {
             _player = player;
             _inputReader = inputReader;
@@ -29,13 +29,13 @@ namespace PlayerSystem.AbilitySystem.Abilities
         public override void Enable()
         {
             base.Enable();
-            _inputReader.OnObjectInteractionTriggered += ObjectInteraction;
+            _inputReader.OnSharpenedTeethTriggered += ObjectInteraction;
         }
 
         public override void Disable()
         {
             base.Disable();
-            _inputReader.OnObjectInteractionTriggered -= ObjectInteraction;
+            _inputReader.OnSharpenedTeethTriggered -= ObjectInteraction;
         }
 
         private void ObjectInteraction()
@@ -44,7 +44,8 @@ namespace PlayerSystem.AbilitySystem.Abilities
             {
                 _lastAttack = Time.time;
 
-                Collider2D[] objectsInRange = Physics2D.OverlapCircleAll(_player.transform.position, _attackRange, _interactiveLayerMask);
+                Collider2D[] objectsInRange =
+                    Physics2D.OverlapCircleAll(_player.transform.position, _attackRange, _interactiveLayerMask);
 
                 foreach (Collider2D col in objectsInRange)
                 {
@@ -52,11 +53,11 @@ namespace PlayerSystem.AbilitySystem.Abilities
                 }
             }
         }
-        
+
         public override void DrawGizmos()
         {
             base.DrawGizmos();
-            
+
             Gizmos.DrawWireSphere(_player.transform.position, _attackRange);
         }
     }

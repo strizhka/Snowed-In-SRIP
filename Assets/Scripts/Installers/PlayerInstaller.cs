@@ -17,27 +17,38 @@ namespace Installers
 
         public override void InstallBindings()
         {
-            Container.Bind<PlayerData>().FromInstance(_playerData).AsSingle();
-            Container.Bind<AbilitiesData>().FromInstance(_abilitiesData).AsSingle();
-            Container.Bind<Player>().FromInstance(_player).AsSingle();
-
+            InitializeInstances();
             InitializeAbilities();
 
             Container.Bind<AbilityManager>().AsSingle();
         }
 
+        private void InitializeInstances()
+        {
+            Container.Bind<PlayerData>().FromInstance(_playerData).AsSingle();
+            Container.Bind<AbilitiesData>().FromInstance(_abilitiesData).AsSingle();
+            Container.Bind<Player>().FromInstance(_player).AsSingle();
+        }
+
         private void InitializeAbilities()
         {
             Container.Bind<BaseAbility>().To<DoubleJumpAbility>().AsTransient();
+
             Container.Bind<BaseAbility>().To<PropellerTailAbility>()
                 .AsTransient()
                 .WithArguments(_abilitiesData.GravityScale, _abilitiesData.TargetYVelocity, _abilitiesData.TimeToReachTarget);
+
             Container.Bind<BaseAbility>().To<LocatorAbility>()
                 .AsTransient()
-                .WithArguments(_abilitiesData.CooldownTime, _abilitiesData.SearchRange, _abilitiesData.HiddenWallsLayerMask);
+                .WithArguments(_abilitiesData.InteractionCooldownTime, _abilitiesData.SearchRange, _abilitiesData.HiddenWallsLayerMask);
+
             Container.Bind<BaseAbility>().To<ObjectInteractionAbility>()
                 .AsTransient()
-                .WithArguments(_abilitiesData.CooldownTime, _abilitiesData.AttackRange, _abilitiesData.InteractiveLayerMask);
+                .WithArguments(_abilitiesData.InteractionCooldownTime, _abilitiesData.InteractionAttackRange, _abilitiesData.InteractiveLayerMask);
+
+            Container.Bind<BaseAbility>().To<SharpenedTeethAbility>()
+                .AsTransient()
+                .WithArguments(_abilitiesData.TeethCooldownTime, _abilitiesData.TeethAttackRange, _abilitiesData.TeethLayerMask);
         }
     }
 }

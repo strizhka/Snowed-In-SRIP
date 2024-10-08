@@ -13,11 +13,16 @@ namespace Installers
 
         public override void InstallBindings()
         {
+            InitializeInstances();
+
+            Container.BindInterfacesAndSelfTo<InventoryController>().AsSingle();
+        }
+
+        private void InitializeInstances()
+        {
             Container.BindInstance(_itemObjects).AsSingle();
             Container.BindInstance(_inventoryUI).AsSingle();
             Container.BindInstance(_inventory).AsSingle();
-
-            Container.BindInterfacesAndSelfTo<InventoryController>().AsSingle();
         }
     }
 }

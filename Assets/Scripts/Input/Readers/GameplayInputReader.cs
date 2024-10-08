@@ -14,6 +14,7 @@ namespace Input.Readers
         private InputActionReference _objectInteractionReference;
         private InputActionReference _propellerTailReference;
         private InputActionReference _locatorReference;
+        private InputActionReference _sharpenedTeethReference;
 
         private InputAction _moveAction;
         private InputAction _jumpAction;
@@ -21,6 +22,7 @@ namespace Input.Readers
         private InputAction _objectInteractionAction;
         private InputAction _propellerTailAction;
         private InputAction _locatorAction;
+        private InputAction _sharpenedTeethAction;
 
         private Action<InputAction.CallbackContext> _moveActionDelegate;
         private Action<InputAction.CallbackContext> _jumpStartedActionDelegate;
@@ -30,6 +32,7 @@ namespace Input.Readers
         private Action<InputAction.CallbackContext> _propellerTailStartedActionDelegate;
         private Action<InputAction.CallbackContext> _propellerTailCanceledActionDelegate;
         private Action<InputAction.CallbackContext> _locatorActionDelegate;
+        private Action<InputAction.CallbackContext> _sharpenedTeethActionDelegate;
 
         public Vector2 MoveInput { get; private set; }
 
@@ -45,6 +48,8 @@ namespace Input.Readers
 
         public Action OnLocatorTriggered;
 
+        public Action OnSharpenedTeethTriggered;
+
         [Inject]
         public void Construct(
             [Inject (Id = "Move")] InputActionReference moveActionReference,
@@ -52,7 +57,8 @@ namespace Input.Readers
             [Inject (Id = "Interaction")] InputActionReference interactionActionReference,
             [Inject (Id = "ObjectInteraction")] InputActionReference objectInteractionActionReference,
             [Inject (Id = "PropellerTail")] InputActionReference propellerTailActionReference,
-            [Inject (Id = "Locator")] InputActionReference locatorActionReference)
+            [Inject (Id = "Locator")] InputActionReference locatorActionReference,
+            [Inject (Id = "SharpenedTeeth")] InputActionReference sharpenedTeethActionReference)
         {
             _moveAction = moveActionReference.action;
             _jumpAction = jumpActionReference.action;
@@ -60,6 +66,7 @@ namespace Input.Readers
             _objectInteractionAction = objectInteractionActionReference.action;
             _propellerTailAction = propellerTailActionReference.action;
             _locatorAction = locatorActionReference.action;
+            _sharpenedTeethAction = sharpenedTeethActionReference.action;
         }
 
         private void EnableDefaultInput()
@@ -70,6 +77,7 @@ namespace Input.Readers
             _objectInteractionAction.Enable();
             _propellerTailAction.Enable();
             _locatorAction.Enable();
+            _sharpenedTeethAction.Enable();
         }
 
         private void RegisterInputActions()
@@ -99,6 +107,9 @@ namespace Input.Readers
 
             _locatorActionDelegate = _ => OnLocatorTriggered?.Invoke();
             _locatorAction.performed += _locatorActionDelegate;
+
+            _sharpenedTeethActionDelegate = _ => OnSharpenedTeethTriggered?.Invoke();
+            _sharpenedTeethAction.performed += _sharpenedTeethActionDelegate;
         }
 
         private void UnregisterInputActions()
@@ -112,6 +123,7 @@ namespace Input.Readers
             _propellerTailAction.started -= _propellerTailStartedActionDelegate;
             _propellerTailAction.canceled -= _propellerTailCanceledActionDelegate;
             _locatorAction.performed -= _locatorActionDelegate;
+            _sharpenedTeethAction.performed -= _sharpenedTeethActionDelegate;
         }
 
         private void DisableDefaultInput()
@@ -122,6 +134,7 @@ namespace Input.Readers
             _objectInteractionAction.Disable();
             _propellerTailAction.Disable();
             _locatorAction.Disable();
+            _sharpenedTeethAction.Disable();
         }
 
         public void Initialize()

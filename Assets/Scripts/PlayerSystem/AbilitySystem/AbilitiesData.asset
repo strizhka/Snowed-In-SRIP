@@ -16,11 +16,16 @@ MonoBehaviour:
   <HiddenWallsLayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 256
-  <AttackRange>k__BackingField: 2
+  <InteractionAttackRange>k__BackingField: 2
   <InteractiveLayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 128
-  <CooldownTime>k__BackingField: 1
+  <InteractionCooldownTime>k__BackingField: 1
+  <TeethAttackRange>k__BackingField: 2
+  <TeethLayerMask>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 1024
+  <TeethCooldownTime>k__BackingField: 1
   <GravityScale>k__BackingField: 0.3
   <TargetYVelocity>k__BackingField: -2
   <TimeToReachTarget>k__BackingField: 0.2
