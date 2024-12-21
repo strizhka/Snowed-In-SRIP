@@ -44,6 +44,18 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Trees
+    uniqueID: 3913434603
+    locked: 0
+  - name: Probs
+    uniqueID: 2266129105
+    locked: 0
+  - name: Ground
+    uniqueID: 940949199
+    locked: 0
+  - name: Player
+    uniqueID: 3795616909
+    locked: 0
   - name: UI
     uniqueID: 2588542723
     locked: 0
