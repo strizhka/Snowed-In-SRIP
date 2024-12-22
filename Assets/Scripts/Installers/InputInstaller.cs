@@ -57,6 +57,7 @@ namespace Installers
             Container.Bind<InputActionReference>().WithId("PropellerTail").FromInstance(inputActionSoAsset.PropellerTail).AsCached();
             Container.Bind<InputActionReference>().WithId("Locator").FromInstance(inputActionSoAsset.Locator).AsCached();
             Container.Bind<InputActionReference>().WithId("SharpenedTeeth").FromInstance(inputActionSoAsset.SharpenedTeeth).AsCached();
+            Container.Bind<InputActionReference>().WithId("Pause").FromInstance(inputActionSoAsset.Pause).AsCached();
         }
         
         private void BindUIActions()

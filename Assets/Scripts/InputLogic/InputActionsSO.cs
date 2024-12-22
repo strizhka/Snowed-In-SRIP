@@ -16,6 +16,7 @@ namespace InputLogic
         [field: SerializeField] public InputActionReference PropellerTail { get; private set; }
         [field: SerializeField] public InputActionReference Locator { get; private set; }
         [field: SerializeField] public InputActionReference SharpenedTeeth { get; private set; }
+        [field: SerializeField] public InputActionReference Pause { get; private set; }
 
         [field: Header("UI Actions")]
         [field: SerializeField] public InputActionReference NavigateAction { get; private set;}
