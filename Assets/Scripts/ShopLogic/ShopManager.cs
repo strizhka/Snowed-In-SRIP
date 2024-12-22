@@ -1,4 +1,5 @@
 ﻿using System;
+using InputLogic.Readers;
 using PlayerSystem.InventorySystem;
 using PlayerSystem.InventorySystem.Item;
 using UnityEngine;
@@ -14,16 +15,32 @@ namespace ShopLogic
         [SerializeField] private ShopItemUI _shopItemPrefab;
 
         private InventoryController _inventoryController;
+        private MenuInputReader _menuInputReader;
+        private GameStateMachine _gameStateMachine;
 
         [Inject]
-        public void Construct(InventoryController inventoryController)
+        public void Construct(InventoryController inventoryController, MenuInputReader menuInputReader, GameStateMachine gameStateMachine)
         {
             _inventoryController = inventoryController;
+            _menuInputReader = menuInputReader;
+            _gameStateMachine = gameStateMachine;
         }
-        
+
         private void Start()
         {
             InitializeShop();
+        }
+
+        private void OnEnable()
+        {
+            _gameStateMachine.ChangeState(GameState.Menu);
+            _menuInputReader.OnQuitTriggered += CloseShop;
+        }
+
+        private void OnDisable()
+        {
+            _gameStateMachine.ChangeState(GameState.Gameplay);
+            _menuInputReader.OnQuitTriggered -= CloseShop;
         }
 
         private void InitializeShop()
@@ -34,6 +51,11 @@ namespace ShopLogic
                 shopItemUI.Initialize(shopItem);
                 shopItemUI.Button.onClick.AddListener(() => BuyItem(shopItemUI));
             }
+        }
+
+        private void CloseShop()
+        {
+            gameObject.SetActive(false);
         }
 
         private void BuyItem(ShopItemUI shopItemUI)

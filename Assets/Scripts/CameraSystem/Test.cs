@@ -1,8 +1,8 @@
 using Cinemachine;
-using Input.Readers;
 using PlayerSystem;
 using System.Collections;
 using System.Collections.Generic;
+using InputLogic.Readers;
 using UnityEngine;
 using Zenject;
 

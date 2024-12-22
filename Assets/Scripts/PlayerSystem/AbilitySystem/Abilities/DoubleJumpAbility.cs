@@ -1,4 +1,4 @@
-﻿using Input.Readers;
+﻿using InputLogic.Readers;
 using UnityEngine;
 using Zenject;
 

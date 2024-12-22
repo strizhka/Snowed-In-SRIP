@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Input;
-using Input.Readers;
+using InputLogic;
+using InputLogic.Readers;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Zenject;

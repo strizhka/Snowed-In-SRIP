@@ -1,4 +1,4 @@
-﻿using Input;
+﻿using InputLogic;
 using Zenject;
 
 public class GameStateMachine

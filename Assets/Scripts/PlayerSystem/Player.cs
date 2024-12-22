@@ -2,12 +2,12 @@
 using AudioSystem;
 using DebugLogic;
 using DG.Tweening;
-using Input.Readers;
 using PlayerSystem.AbilitySystem;
 using PlayerSystem.AbilitySystem.Abilities;
 using UnityEngine;
 using Zenject;
 using FMOD.Studio;
+using InputLogic.Readers;
 using UnityEngine.EventSystems;
 
 namespace PlayerSystem
