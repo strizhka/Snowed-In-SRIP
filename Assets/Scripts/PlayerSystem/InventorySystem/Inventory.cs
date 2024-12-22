@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace PlayerSystem.InventorySystem
 {
-    public class Inventory : MonoBehaviour
+    public class Inventory
     {
         private readonly List<InventoryItem> _items = new();
 
@@ -16,7 +16,7 @@ namespace PlayerSystem.InventorySystem
 
         public void AddItem(ItemType itemType, int amount)
         {
-            Debug.Log($"Add item: {itemType} x{amount}");
+            // Debug.Log($"Add item: {itemType} x{amount}");
             var item = _items.Find(i => i.ItemType == itemType);
             item?.AddAmount(amount);
         }

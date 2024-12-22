@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using AudioSystem;
 using UnityEngine;
 using FMODUnity;
 
@@ -23,7 +24,7 @@ public class Cheese : MonoBehaviour
 
     private void Start()
     {
-        emitter = AudioManager.instance.InitializeEventEmitter(FMODEvents.instance.cheeseIdle, gameObject);
+        emitter = AudioManager.Instance.InitializeEventEmitter(FMODEvents.Instance.CheeseIdle, gameObject);
         emitter.Play();
     }
 
@@ -42,7 +43,7 @@ public class Cheese : MonoBehaviour
         visual.gameObject.SetActive(false);
 
         emitter.Stop();
-        AudioManager.instance.PlayOneShot(FMODEvents.instance.cheeseCollected, transform.position);
+        AudioManager.Instance.PlayOneShot(FMODEvents.Instance.CheeseCollected, transform.position);
 
     }
 

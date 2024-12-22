@@ -9,12 +9,12 @@ namespace Installers
     {
         [SerializeField] private ItemObject[] _itemObjects;
         [SerializeField] private InventoryUI _inventoryUI;
-        [SerializeField] private Inventory _inventory;
 
         public override void InstallBindings()
         {
             InitializeInstances();
 
+            Container.Bind<Inventory>().AsSingle();
             Container.BindInterfacesAndSelfTo<InventoryController>().AsSingle();
         }
 
@@ -22,7 +22,6 @@ namespace Installers
         {
             Container.BindInstance(_itemObjects).AsSingle();
             Container.BindInstance(_inventoryUI).AsSingle();
-            Container.BindInstance(_inventory).AsSingle();
         }
     }
 }

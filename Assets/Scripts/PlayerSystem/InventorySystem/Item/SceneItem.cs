@@ -1,4 +1,5 @@
-﻿using FMODUnity;
+﻿using AudioSystem;
+using FMODUnity;
 using UnityEngine;
 using Zenject;
 
@@ -26,13 +27,11 @@ namespace PlayerSystem.InventorySystem.Item
         private void Awake()
         {
             visual = GetComponentInChildren<SpriteRenderer>();
-            //collectParticle = GetComponentInChildren<ParticleSystem>();
-            //collectParticle.Stop();
         }
 
         private void Start()
         {
-            emitter = AudioManager.instance.InitializeEventEmitter(FMODEvents.instance.cheeseIdle, gameObject);
+            emitter = AudioManager.Instance.InitializeEventEmitter(FMODEvents.Instance.CheeseIdle, gameObject);
             emitter.Play();
         }
 
@@ -43,7 +42,6 @@ namespace PlayerSystem.InventorySystem.Item
                 if (!_isPickedUp)
                 {
                     _inventoryController.AddItem(_itemType, _amount);
-                    //collectParticle.Play();
                     CollectItem();
                     _isPickedUp = true;
                 }
@@ -58,13 +56,13 @@ namespace PlayerSystem.InventorySystem.Item
 
             emitter.Stop();
 
-            if (this.CompareTag("Cheese"))
+            if (_itemType == ItemType.Cheese)
             {
-                AudioManager.instance.PlayOneShot(FMODEvents.instance.cheeseCollected, transform.position);
+                AudioManager.Instance.PlayOneShot(FMODEvents.Instance.CheeseCollected, transform.position);
             }
             else
             {
-                AudioManager.instance.PlayOneShot(FMODEvents.instance.cheeseCollected, transform.position);
+                AudioManager.Instance.PlayOneShot(FMODEvents.Instance.ItemCollected, transform.position);
             }
         }
     }

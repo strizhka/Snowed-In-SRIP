@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using AudioSystem;
 using UnityEngine;
 
 public class AmbienceChangeTrigger : MonoBehaviour
@@ -12,7 +13,7 @@ public class AmbienceChangeTrigger : MonoBehaviour
     {
         if (collider.tag.Equals("Player"))
         {
-            AudioManager.instance.SetAmbienceParameter(parameterName, parameterValue);
+            AudioManager.Instance.SetAmbienceParameter(parameterName, parameterValue);
         }
     }
 }

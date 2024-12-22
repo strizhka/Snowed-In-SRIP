@@ -2,9 +2,12 @@
 
 namespace PlayerSystem.AbilitySystem
 {
+    // TODO: add interface for abilities
     public abstract class BaseAbility
     {
         public abstract Ability Ability { get; }
+
+
 
         protected Player _player;
         private bool _isEnabled;
@@ -13,7 +16,9 @@ namespace PlayerSystem.AbilitySystem
         public void Construct(Player player)
         {
             _player = player;
+
         }
+
 
         public virtual void Enable()
         {

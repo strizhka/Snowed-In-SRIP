@@ -1,35 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using FMODUnity;
+using UnityEngine;
 
-public class FMODEvents : MonoBehaviour
+namespace AudioSystem
 {
-    [field: Header("Ambience")]
-    [field: SerializeField] public EventReference ambience { get; private set; }
-
-    [field: Header("Music")]
-    [field: SerializeField] public EventReference music { get; private set; }
-
-    [field: Header("Player SFX")]
-    [field: SerializeField] public EventReference playerSnowFootsteps { get; private set; }
-
-    [field: Header("Cheese SFX")]
-    [field: SerializeField] public EventReference cheeseCollected { get; private set; }
-    [field: SerializeField] public EventReference cheeseIdle { get; private set; }
-
-    [field: Header("Items SFX")]
-    [field: SerializeField] public EventReference itemCollected { get; private set; }
-    [field: SerializeField] public EventReference itemIdle { get; private set; }
-
-    public static FMODEvents instance { get; private set; }
-
-    private void Awake()
+    public class FMODEvents : MonoBehaviour
     {
-        if (instance != null)
+        [field: Header("Ambience")]
+        [field: SerializeField] public EventReference Ambience { get; private set; }
+
+        [field: Header("Music")]
+        [field: SerializeField] public EventReference Music { get; private set; }
+
+        [field: Header("Player SFX")]
+        [field: SerializeField] public EventReference PlayerSnowFootsteps { get; private set; }
+
+        [field: Header("Cheese SFX")]
+        [field: SerializeField] public EventReference CheeseCollected { get; private set; }
+        [field: SerializeField] public EventReference CheeseIdle { get; private set; }
+
+        [field: Header("Items SFX")]
+        [field: SerializeField] public EventReference ItemCollected { get; private set; }
+        [field: SerializeField] public EventReference ItemIdle { get; private set; }
+
+        public static FMODEvents Instance { get; private set; }
+
+        private void Awake()
         {
-            Debug.LogError("Found more than one FMOD Events instance in the scene.");
+            if (Instance != null)
+            {
+                Debug.LogError("Found more than one FMOD Events instance in the scene.");
+            }
+
+            Instance = this;
         }
-        instance = this;
     }
 }

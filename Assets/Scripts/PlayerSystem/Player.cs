@@ -1,4 +1,6 @@
-﻿using DebugLogic;
+﻿using System;
+using AudioSystem;
+using DebugLogic;
 using Input.Readers;
 using PlayerSystem.AbilitySystem;
 using PlayerSystem.AbilitySystem.Abilities;
@@ -63,7 +65,7 @@ namespace PlayerSystem
         {
             SetGravityScale(Data.gravityScale);
             _gameStateMachine.ChangeState(GameState.Gameplay);
-            _snowFootsteps = AudioManager.instance.CreateInstance(FMODEvents.instance.playerSnowFootsteps);
+            _snowFootsteps = AudioManager.Instance.CreateInstance(FMODEvents.Instance.PlayerSnowFootsteps);
         }
 
         private void OnEnable()
@@ -117,6 +119,11 @@ namespace PlayerSystem
             ChangeGravity();
 
             _abilityManager.UpdateAbilities();
+            
+            if (Math.Abs(Rb.velocity.y) < 0.01f)
+            {
+                Rb.velocity = new Vector2(Rb.velocity.x, 0);
+            }
 
             switch (Rb.velocity.y)
             {
