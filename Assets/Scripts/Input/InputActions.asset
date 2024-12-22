@@ -30,3 +30,4 @@ MonoBehaviour:
   <RightClickAction>k__BackingField: {fileID: 8909367885762743117, guid: 42feaa6813b598042afd3758e7ea94a9, type: 3}
   <TrackedDevicePositionAction>k__BackingField: {fileID: -4971986495525643256, guid: 42feaa6813b598042afd3758e7ea94a9, type: 3}
   <TrackedDeviceOrientationAction>k__BackingField: {fileID: -2542287869337952565, guid: 42feaa6813b598042afd3758e7ea94a9, type: 3}
+  <QuitAction>k__BackingField: {fileID: -88956486422529949, guid: 42feaa6813b598042afd3758e7ea94a9, type: 3}
