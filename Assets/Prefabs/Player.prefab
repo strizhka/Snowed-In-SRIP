@@ -160,7 +160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e4b27f4add3468db70e67137b3f4c3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _groundCheckRadius: 0.2
+  _groundCheckRadius: 0.3
   _groundLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -181,7 +181,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6354090277774561436}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -262,6 +262,6 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.20781602, y: -0.053315014}
-  m_Size: {x: 2.407154, y: 1.5638765}
+  m_Offset: {x: 0.2985032, y: -0.045243185}
+  m_Size: {x: 1.5800402, y: 1.5800402}
   m_Direction: 1
