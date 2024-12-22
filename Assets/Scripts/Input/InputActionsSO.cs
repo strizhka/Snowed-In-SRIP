@@ -28,5 +28,8 @@ namespace Input
         [field: SerializeField] public InputActionReference RightClickAction { get; private set;}
         [field: SerializeField] public InputActionReference TrackedDevicePositionAction { get; private set;}
         [field: SerializeField] public InputActionReference TrackedDeviceOrientationAction { get; private set;}
+
+        [field: Header("Menu Actions")]
+        [field: SerializeField] public InputActionReference QuitAction { get; private set; }
     }
 }

@@ -119,7 +119,7 @@ namespace PlayerSystem
             ChangeGravity();
 
             _abilityManager.UpdateAbilities();
-            
+
             if (Math.Abs(Rb.velocity.y) < 0.01f)
             {
                 Rb.velocity = new Vector2(Rb.velocity.x, 0);

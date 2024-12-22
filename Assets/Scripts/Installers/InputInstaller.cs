@@ -17,6 +17,7 @@ namespace Installers
             
             BindGameplayActions();
             BindUIActions();
+            BindMenuActions();
             BindInputReaders();
             BindInputReadersList();
 
@@ -28,7 +29,8 @@ namespace Installers
             List<BaseInputReader> inputHandlers = new List<BaseInputReader>
             {
                 Container.Resolve<GameplayInputReader>(),
-                Container.Resolve<UIInputReader>()
+                Container.Resolve<UIInputReader>(),
+                Container.Resolve<MenuInputReader>()
             };
 
             Container.Bind<List<BaseInputReader>>().FromInstance(inputHandlers).AsSingle();
@@ -41,6 +43,9 @@ namespace Installers
 
             Container.BindInterfacesAndSelfTo<UIInputReader>().AsSingle()
                 .WithArguments(inputActionSoAsset.InputActionAsset, "UI", InputHandlerType.UI);
+
+            Container.BindInterfacesAndSelfTo<MenuInputReader>().AsSingle()
+                .WithArguments(inputActionSoAsset.InputActionAsset, "Menu", InputHandlerType.Menu);
         }
 
         private void BindGameplayActions()
@@ -66,6 +71,11 @@ namespace Installers
             Container.Bind<InputActionReference>().WithId("RightClick").FromInstance(inputActionSoAsset.RightClickAction).AsCached();
             Container.Bind<InputActionReference>().WithId("TrackedDevicePosition").FromInstance(inputActionSoAsset.TrackedDevicePositionAction).AsCached();
             Container.Bind<InputActionReference>().WithId("TrackedDeviceOrientation").FromInstance(inputActionSoAsset.TrackedDeviceOrientationAction).AsCached();
+        }
+
+        private void BindMenuActions()
+        {
+            Container.Bind<InputActionReference>().WithId("Quit").FromInstance(inputActionSoAsset.QuitAction).AsCached();
         }
     }
 }

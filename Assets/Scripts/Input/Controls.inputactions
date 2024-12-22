@@ -852,6 +852,17 @@
                 },
                 {
                     "name": "",
+                    "id": "9a02ddf1-aa89-41f5-8482-d44a82b3e032",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Submit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "b28fded2-c481-4238-b107-3372432967bc",
                     "path": "*/{Cancel}",
                     "interactions": "",
@@ -990,6 +1001,45 @@
                     "processors": "",
                     "groups": "XR",
                     "action": "TrackedDeviceOrientation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Menu",
+            "id": "03090413-605f-42ae-a366-90834700ac6d",
+            "actions": [
+                {
+                    "name": "Quit",
+                    "type": "Button",
+                    "id": "c6bf7f33-8535-42b3-87fc-507d00a3dd9d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "e6b497ab-ae55-497c-b459-418d761d4327",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Quit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b5a218ff-015a-46f0-a45a-b99c74a9e498",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Quit",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -40,6 +40,7 @@ public class GameStateMachine
 
     private void MenuState()
     {
-        _inputReaderSwitcher.SetActiveInputHandler(InputHandlerType.UI);
+        _inputReaderSwitcher.SetActiveInputHandler(InputHandlerType.Menu);
+        _inputReaderSwitcher.EnableInputReader(InputHandlerType.UI);
     }
 }

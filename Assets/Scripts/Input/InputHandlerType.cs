@@ -3,6 +3,7 @@
     public enum InputHandlerType
     {
         UI,
-        Gameplay
+        Gameplay,
+        Menu
     }
 }
