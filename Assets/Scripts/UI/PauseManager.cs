@@ -41,17 +41,17 @@ namespace UI
             gameObject.SetActive(false);
         }
 
-        private void Resume()
+        public void Resume()
         {
             ClosePause();
         }
 
-        private void Settings()
+        public void Settings()
         {
 
         }
 
-        private void Exit()
+        public void Exit()
         {
             Application.Quit();
         }
