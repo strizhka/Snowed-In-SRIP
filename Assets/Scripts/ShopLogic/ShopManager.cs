@@ -1,4 +1,5 @@
 ﻿using System;
+using DG.Tweening;
 using InputLogic.Readers;
 using PlayerSystem.InventorySystem;
 using PlayerSystem.InventorySystem.Item;
@@ -17,6 +18,8 @@ namespace ShopLogic
         private InventoryController _inventoryController;
         private MenuInputReader _menuInputReader;
         private GameStateMachine _gameStateMachine;
+
+        private Tween _tween;
 
         [Inject]
         public void Construct(InventoryController inventoryController, MenuInputReader menuInputReader, GameStateMachine gameStateMachine)
@@ -63,6 +66,11 @@ namespace ShopLogic
             if (_inventoryController.GetMoney() < shopItemUI.Price)
             {
                 Debug.Log("Not enough money");
+
+                transform.localPosition = Vector3.zero;
+                _tween?.Kill();
+
+                _tween = shopItemUI.transform.DOShakePosition(0.5f, 10, 50);
                 return;
             }
 
@@ -88,6 +96,17 @@ namespace ShopLogic
             }
 
             _inventoryController.SpendMoney(shopItemUI.Price);
+
+            var floatingImage = Instantiate(shopItemUI.Icon, shopItemUI.transform.position, Quaternion.identity);
+            floatingImage.transform.SetParent(transform);
+            floatingImage.transform.localScale = Vector3.one;
+            floatingImage.transform.SetAsLastSibling();
+            floatingImage.gameObject.SetActive(true);
+
+            floatingImage.transform.DOMove(floatingImage.transform.position + Vector3.up * 100, 1f);
+            floatingImage.transform.DOScale(Vector3.one * 2, 1f).OnComplete(() => Destroy(floatingImage.gameObject));
+            floatingImage.DOFade(0, 1f).OnComplete(() => Destroy(floatingImage.gameObject));
+
             if (shopItemUI.Quantity > 1)
             {
                 shopItemUI.ReduceQuantity();

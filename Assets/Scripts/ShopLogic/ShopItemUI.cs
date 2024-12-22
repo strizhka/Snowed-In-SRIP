@@ -1,22 +1,27 @@
 ﻿using System;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace ShopLogic
 {
-    public class ShopItemUI : MonoBehaviour
+    public class ShopItemUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         [SerializeField] private ShopItem _shopItem;
         [SerializeField] private Image _icon;
         [SerializeField] private TextMeshProUGUI _priceText;
         [SerializeField] private TextMeshProUGUI _quantityText;
+        [SerializeField] private GameObject _scaleObject;
 
         public ShopItemType ShopItemType => _shopItem.ShopItemType;
         public int Price => _shopItem.Price;
         public int Quantity => _quantity;
+        public Image Icon => _icon;
 
         private int _quantity;
+        private Tween _tween;
 
         public Button Button { get; private set; }
 
@@ -53,6 +58,18 @@ namespace ShopLogic
         public void ReduceQuantity()
         {
             _quantity--;
+        }
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            _tween?.Kill();
+            _tween = _scaleObject.transform.DOScale(1.1f, 0.2f);
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            _tween?.Kill();
+            _tween = _scaleObject.transform.DOScale(1f, 0.2f);
         }
     }
 }

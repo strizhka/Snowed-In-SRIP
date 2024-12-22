@@ -1,7 +1,6 @@
-﻿using System;
-using InputLogic.Readers;
+﻿using InputLogic.Readers;
 using UnityEngine;
-using UnityEngine.Rendering;
+using UnityEngine.UI;
 using Zenject;
 
 namespace UI
