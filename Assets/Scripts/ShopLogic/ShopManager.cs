@@ -38,7 +38,6 @@ namespace ShopLogic
 
         private void BuyItem(ShopItemUI shopItemUI)
         {
-            Debug.Log(11111111111111111);
             if (_inventoryController.GetMoney() < shopItemUI.Price)
             {
                 Debug.Log("Not enough money");

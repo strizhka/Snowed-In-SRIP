@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _itemType: 0
-  _amount: 1
+  _amount: 10
 --- !u!61 &131986861805308280
 BoxCollider2D:
   m_ObjectHideFlags: 0

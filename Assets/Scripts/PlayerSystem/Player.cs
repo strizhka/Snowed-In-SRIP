@@ -1,6 +1,7 @@
 ﻿using System;
 using AudioSystem;
 using DebugLogic;
+using DG.Tweening;
 using Input.Readers;
 using PlayerSystem.AbilitySystem;
 using PlayerSystem.AbilitySystem.Abilities;
@@ -65,7 +66,7 @@ namespace PlayerSystem
 
             _eventSystem = EventSystem.current;
             EventSystem.current.gameObject.SetActive(false);
-            _eventSystem.gameObject.SetActive(true);
+            DOVirtual.DelayedCall(0.1f, () => { _eventSystem.gameObject.SetActive(true); });
         }
 
         private void Start()
