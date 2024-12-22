@@ -42,5 +42,22 @@ namespace PlayerSystem.InventorySystem
             _inventory.AddItem(itemType, amount);
             _inventoryUI.UpdateUI();
         }
+
+        public void AddMoney(int amount)
+        {
+            _inventory.AddMoney(amount);
+            _inventoryUI.UpdateUI();
+        }
+
+        public void SpendMoney(int amount)
+        {
+            _inventory.SpendMoney(amount);
+            _inventoryUI.UpdateUI();
+        }
+
+        public int GetMoney()
+        {
+            return _inventory.GetMoney();
+        }
     }
 }

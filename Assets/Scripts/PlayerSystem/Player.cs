@@ -7,6 +7,7 @@ using PlayerSystem.AbilitySystem.Abilities;
 using UnityEngine;
 using Zenject;
 using FMOD.Studio;
+using UnityEngine.EventSystems;
 
 namespace PlayerSystem
 {
@@ -43,6 +44,8 @@ namespace PlayerSystem
         [field: SerializeField, ReadOnly] private bool _isJumpCut;
         [field: SerializeField, ReadOnly] private bool _isJumpFalling;
 
+        private EventSystem _eventSystem;
+
         [Inject]
         private void Construct(GameplayInputReader inputReader, GameStateMachine gameStateMachine,
             AbilityManager abilityManager, PlayerData data)
@@ -59,6 +62,10 @@ namespace PlayerSystem
         {
             Rb = GetComponent<Rigidbody2D>();
             AnimHandler = GetComponent<Animator>();
+
+            _eventSystem = EventSystem.current;
+            EventSystem.current.gameObject.SetActive(false);
+            _eventSystem.gameObject.SetActive(true);
         }
 
         private void Start()
