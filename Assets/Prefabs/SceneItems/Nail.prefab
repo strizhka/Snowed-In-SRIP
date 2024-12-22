@@ -176,4 +176,4 @@ MonoBehaviour:
   Params: []
   OverrideAttenuation: 1
   OverrideMinDistance: 1
-  OverrideMaxDistance: 6
+  OverrideMaxDistance: 2.7086658
