@@ -29,6 +29,9 @@ public class GameStateMachine
             case GameState.Menu:
                 MenuState();
                 break;
+            case GameState.Cutscene:
+                CutsceneState();
+                break;
         }
     }
 
@@ -42,5 +45,11 @@ public class GameStateMachine
     {
         _inputReaderSwitcher.SetActiveInputHandler(InputHandlerType.Menu);
         _inputReaderSwitcher.EnableInputReader(InputHandlerType.UI);
+    }
+
+    private void CutsceneState()
+    {
+        _inputReaderSwitcher.DisableAllInput();
+        _currentState = GameState.Cutscene;
     }
 }

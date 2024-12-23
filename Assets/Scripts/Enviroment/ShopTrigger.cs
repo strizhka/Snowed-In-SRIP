@@ -11,7 +11,6 @@ namespace Enviroment
         [SerializeField] private ShopManager _shopManager;
 
         private GameplayInputReader _gameplayInputReader;
-        private bool _isPlayerInside;
 
         [Inject]
         public void Construct(GameplayInputReader gameplayInputReader)
@@ -25,7 +24,6 @@ namespace Enviroment
             {
                 _hintCanvas.gameObject.SetActive(true);
                 _gameplayInputReader.OnInteractionTriggered += OpenShop;
-                _isPlayerInside = true;
             }
         }
 
@@ -35,7 +33,6 @@ namespace Enviroment
             {
                 _hintCanvas.gameObject.SetActive(false);
                 _gameplayInputReader.OnInteractionTriggered -= OpenShop;
-                _isPlayerInside = false;
             }
         }
 

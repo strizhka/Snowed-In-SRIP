@@ -1,4 +1,6 @@
-﻿using Zenject;
+﻿using CutsceneLogic;
+using UnityEngine;
+using Zenject;
 
 namespace Installers
 {
@@ -7,6 +9,7 @@ namespace Installers
         public override void InstallBindings()
         {
             Container.BindInterfacesAndSelfTo<GameStateMachine>().AsSingle();
+            Container.BindInterfacesAndSelfTo<CutsceneManager>().AsSingle();
         }
     }
 }

@@ -46,6 +46,8 @@ namespace PlayerSystem
         [field: SerializeField, ReadOnly] private bool _isJumpFalling;
 
         private EventSystem _eventSystem;
+        private bool _isCutsceneRunning;
+        private Vector2 _cutsceneDirection;
 
         [Inject]
         private void Construct(GameplayInputReader inputReader, GameStateMachine gameStateMachine,
@@ -119,6 +121,20 @@ namespace PlayerSystem
 
         private void Update()
         {
+            if (_isCutsceneRunning)
+            {
+                Rb.velocity = new Vector2(_cutsceneDirection.x * Data.runMaxSpeed, Rb.velocity.y);
+                if (_cutsceneDirection.x > 0 && !IsFacingRight)
+                {
+                    Turn();
+                }
+                else if (_cutsceneDirection.x < 0 && IsFacingRight)
+                {
+                    Turn();
+                }
+                // return;
+            }
+
             LastOnGroundTime -= Time.deltaTime;
             LastPressedJumpTime -= Time.deltaTime;
 
@@ -151,16 +167,10 @@ namespace PlayerSystem
         {
             if (!IsJumping)
             {
-                //Ground Check
                 if (Physics2D.OverlapCircle(_groundCheck.position, _groundCheckRadius,
-                        _groundLayer)) //checks if set box overlaps with ground
+                        _groundLayer))
                 {
-                    // if(LastOnGroundTime < -0.1f)
-                    // {
-                    //     AnimHandler.justLanded = true;
-                    // }
-
-                    LastOnGroundTime = Data.coyoteTime; //if so sets the lastGrounded to coyoteTime
+                    LastOnGroundTime = Data.coyoteTime;
                 }
             }
         }
@@ -183,8 +193,6 @@ namespace PlayerSystem
             if (CanJump() && LastPressedJumpTime > 0)
             {
                 Jump(Data.jumpForce);
-
-                // AnimHandler.startedJumping = true;
             }
         }
 
@@ -294,6 +302,17 @@ namespace PlayerSystem
             }
         }
 
+        public void StartMoveCutscene(Vector2 direction)
+        {
+            _isCutsceneRunning = true;
+            _cutsceneDirection = direction;
+        }
+
+        public void StopMoveCutscene()
+        {
+            _isCutsceneRunning = false;
+        }
+
         public void Jump(float jumpForce)
         {
             IsJumping = true;
@@ -309,11 +328,15 @@ namespace PlayerSystem
             if (Rb.velocity.y < 0)
                 force -= Rb.velocity.y;
 
-            // Debug.Log(force);
-
             Rb.AddForce(Vector2.up * force, ForceMode2D.Impulse);
 
             #endregion
+        }
+
+        public void CutsceneJump(float jumpForce)
+        {
+            Rb.velocity = Vector2.zero;
+            Jump(jumpForce);
         }
 
         private void Turn()
@@ -347,7 +370,6 @@ namespace PlayerSystem
                 Debug.DrawLine(transform.position, transform.position + (Vector3)Rb.velocity, Color.red);
             }
 
-            //draw player collider
             Gizmos.color = Color.green;
             Collider2D collider = GetComponent<Collider2D>();
             Gizmos.DrawWireCube(collider.bounds.center, collider.bounds.size);
